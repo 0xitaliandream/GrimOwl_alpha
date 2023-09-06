@@ -12,6 +12,8 @@ class MainClass
     {
         GrimOwlGame game = CreateGame();
         game.NextTurn();
+        
+        TestScenario1(game);
 
         string info = string.Empty;
         string input;
@@ -24,6 +26,20 @@ class MainClass
             input = Console.ReadLine() ?? "";
             info = ProcessInput(game, input);
         } while (input.ToUpper() != CommandQuit);
+    }
+
+    public static void TestScenario1(GrimOwlGame game)
+    {
+        game.NextTurn();
+        game.NextTurn();
+        game.NextTurn();
+        game.NextTurn();
+        game.NextTurn();
+
+        GrimOwlPlayer activePlayer = (GrimOwlPlayer)game.State.ActivePlayer;
+
+        activePlayer.SummonCreature(game, (GrimOwlCreatureCard)activePlayer.GetCardCollection(CardCollectionKeys.Hand).First, 0, 0);
+
     }
 
     private static GrimOwlGame CreateGame()
@@ -43,6 +59,10 @@ class MainClass
             gameState.AddPlayer(player);
         }
 
+        GrimOwlGrid grimOwlGrid = new GrimOwlGrid(5,1);
+
+        gameState.AddGrid(grimOwlGrid);
+
         GrimOwlGame game = new GrimOwlGame(gameState);
 
 
@@ -54,13 +74,15 @@ class MainClass
             }
         }
 
+
+
         return game;
     }
 
     private static string GetOptions()
     {
         string options = "Choose command:\n";
-        options += CommandSummon + " <id>: Summon monster card from hand (with <id>) to the board\n";
+        options += CommandSummon + " <id> <x> <y>: Summon monster card from hand (with <id>) to the board\n";
         options += CommandEndTurn + ": End Turn\n";
         options += CommandQuit + ": Quit\n";
         return options;
@@ -79,7 +101,7 @@ class MainClass
             {
                 case CommandSummon:
                     GrimOwlCreatureCard creatureCard = (GrimOwlCreatureCard)GetObjectById(game, inputParams[1]);
-                    activePlayer.SummonCreature(game, creatureCard);
+                    activePlayer.SummonCreature(game, creatureCard, int.Parse(inputParams[2]), int.Parse(inputParams[3]));
                     output = "Cast monster card";
                     break;
                 case CommandEndTurn:
@@ -112,10 +134,8 @@ class MainClass
             case 2:
                 return state.NonActivePlayers.First().GetCardCollection(CardCollectionKeys.Board).GetByUniqueId(int.Parse(id.Substring(1)))!;
             case 3:
-                return state.ActivePlayer.GetCardCollection(CardCollectionKeys.Board).GetByUniqueId(int.Parse(id.Substring(1)))!;
-            case 4:
                 return state.ActivePlayer.GetCardCollection(CardCollectionKeys.Hand).GetByUniqueId(int.Parse(id.Substring(1)));
-            case 5:
+            case 4:
                 return state.ActivePlayer;
             default:
                 throw new Exception("Unparsable id: " + id);

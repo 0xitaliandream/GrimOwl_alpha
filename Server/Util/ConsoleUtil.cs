@@ -22,13 +22,11 @@ public static class ConsoleUtil
         Console.Write("\n\n");
         PrintHand(gameState, gameState.NonActivePlayers.First().GetCardCollection(CardCollectionKeys.Hand), 1);
         Console.Write("\n\n");
-        PrintBoard(gameState.NonActivePlayers.First().GetCardCollection(CardCollectionKeys.Board), 2);
+        PrintBoard(gameState, 2);
         Console.Write("\n\n");
-        PrintBoard(gameState.ActivePlayer.GetCardCollection(CardCollectionKeys.Board), 3);
+        PrintHand(gameState, gameState.ActivePlayer.GetCardCollection(CardCollectionKeys.Hand), 3);
         Console.Write("\n\n");
-        PrintHand(gameState, gameState.ActivePlayer.GetCardCollection(CardCollectionKeys.Hand), 4);
-        Console.Write("\n\n");
-        PrintPlayer(gameState, gameState.ActivePlayer, 5);
+        PrintPlayer(gameState, gameState.ActivePlayer, 4);
         Console.Write("\n\n");
     }
 
@@ -150,119 +148,85 @@ public static class ConsoleUtil
         }
     }
 
-
-
-    public static void PrintBoard(ICardCollection board, int idPrefix)
+    public static void PrintBoard(GrimOwlGameState gameState, int idPrefix)
     {
-        Console.ForegroundColor = ColorMana;
-        for (int i = 0; i < board.Size; ++i)
+        var grid = gameState.Grid.Cells;
+        int rowCount = gameState.Grid.Rows;
+        int colCount = gameState.Grid.Columns;
+        int cellHeight = 9; // altezza di ogni cella "quadrata"
+        int cellWidth = 20; // larghezza di ogni cella "quadrata"
+
+        for (int row = 0; row < rowCount; ++row)
         {
-            ICard card = board[i];
-            Console.Write(string.Format(
-                "Mana: {0:D2}".PadRight(columnWidth),
-                card.GetValue(StatKeys.Mana)
-            ));
-        }
-        Console.WriteLine();
-        Console.ForegroundColor = ColorMana;
-        for (int i = 0; i < board.Size; ++i)
-        {
-            ICard card = board[i];
-            Console.Write(string.Format(
-                "ManaSpecial: {0:D2}".PadRight(columnWidth),
-                card.GetValue(StatKeys.ManaSpecial)
-            ));
-        }
-        Console.WriteLine();
-        Console.ForegroundColor = ColorAttack;
-        for (int i = 0; i < board.Size; ++i)
-        {
-            ICard card = board[i];
-            if (card is GrimOwlCreatureCard monsterCard)
+            for (int h = 0; h < cellHeight; ++h)
             {
-                Console.Write(string.Format(
-                    "Attack: {0:D2}".PadRight(columnWidth),
-                    monsterCard.GetValue(StatKeys.Attack)
-                ));
-            }
-            else
-            {
-                Console.Write("".PadRight(columnWidth - 4));
-            }
-        }
-        Console.WriteLine();
-        Console.ForegroundColor = ColorLife;
-        for (int i = 0; i < board.Size; ++i)
-        {
-            ICard card = board[i];
-            if (card is GrimOwlCreatureCard monsterCard)
-            {
-                Console.Write(string.Format(
-                    "Life: {0:D2}".PadRight(columnWidth),
-                    monsterCard.GetValue(StatKeys.Life)
-                ));
-            }
-            else
-            {
-                Console.Write("".PadRight(columnWidth - 4));
-            }
-        }
-        Console.WriteLine();
-        Console.ForegroundColor = ColorEnergy;
-        for (int i = 0; i < board.Size; ++i)
-        {
-            ICard card = board[i];
-            if (card is GrimOwlCreatureCard monsterCard)
-            {
-                Console.Write(string.Format(
-                    "Energy: {0:D2}".PadRight(columnWidth),
-                    monsterCard.GetValue(StatKeys.Energy)
-                ));
-            }
-            else
-            {
-                Console.Write("".PadRight(columnWidth - 4));
-            }
-        }
-        Console.WriteLine();
-        Console.ForegroundColor = ColorRange;
-        for (int i = 0; i < board.Size; ++i)
-        {
-            ICard card = board[i];
-            if (card is GrimOwlCreatureCard monsterCard)
-            {
-                Console.Write(string.Format(
-                    "Range: {0:D2}".PadRight(columnWidth),
-                    monsterCard.GetValue(StatKeys.Range)
-                ));
-            }
-            else
-            {
-                Console.Write("".PadRight(columnWidth - 4));
-            }
-        }
-        Console.WriteLine();
-        Console.ForegroundColor = ColorDefault;
-        for (int i = 0; i < board.Size; ++i)
-        {
-            GrimOwlCreatureCard? monsterCard = (GrimOwlCreatureCard?)board[i];
-            Console.ForegroundColor = monsterCard != null && monsterCard.IsReadyToAttack
-                    ? ColorSelectable
-                    : ColorDefault;
-            if (monsterCard != null)
-            {
-                Console.Write(string.Format(
-                    "UniqueId: {0}{1}".PadRight(columnWidth),
-                    idPrefix,
-                    monsterCard.UniqueId.ToString()
-                ));
-            }
-            else
-            {
-                Console.Write(string.Format(
-                    "".PadRight(columnWidth),
-                    i
-                ));
+                for (int col = 0; col < colCount; ++col)
+                {
+                    ICard? card = grid[col, row];
+
+                    string line = "";
+
+                    if (h == 0)
+                    {
+                        line = $"|Idx: {col},{row}".PadRight(cellWidth - 1) + "|";
+                    }
+                    else if (h == cellHeight - 1)
+                    {
+                        line = "|" + new string('-', cellWidth - 2) + "|";
+                    }
+                    else if (card != null)
+                    {
+                        if (h == 1)
+                        {
+                            line = $"|Mana: {card.GetValue(StatKeys.Mana):D2}".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorMana;
+                        }
+                        else if (h == 2)
+                        {
+                            line = $"|MnSpc: {card.GetValue(StatKeys.ManaSpecial):D2}".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorMana;
+                        }
+                        else if (h == 3 && card is GrimOwlCreatureCard)
+                        {
+                            line = $"|Attk: {card.GetValue(StatKeys.Attack):D2}".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorAttack;
+                        }
+                        else if (h == 4 && card is GrimOwlCreatureCard)
+                        {
+                            line = $"|Life: {card.GetValue(StatKeys.Life):D2}".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorLife;
+                        }
+                        else if (h == 5 && card is GrimOwlCreatureCard)
+                        {
+                            line = $"|Enrg: {card.GetValue(StatKeys.Energy):D2}".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorEnergy;
+                        }
+                        else if (h == 6 && card is GrimOwlCreatureCard)
+                        {
+                            line = $"|Rang: {card.GetValue(StatKeys.Range):D2}".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorRange;
+                        }
+                        else if (h == 7 && card is GrimOwlCreatureCard)
+                        {
+                            line = $"|UID: {idPrefix}{card.UniqueId}".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorDefault;
+                        }
+                        else
+                        {
+                            line = "|".PadRight(cellWidth - 1) + "|";
+                            Console.ForegroundColor = ColorDefault;
+                        }
+                    }
+                    else
+                    {
+                        line = "|".PadRight(cellWidth - 1) + "|";
+                        Console.ForegroundColor = ColorDefault;
+                    }
+
+                    Console.Write(line);
+                }
+
+                Console.WriteLine();
             }
         }
     }

@@ -16,7 +16,6 @@ public class GrimOwlPlayer : Player
 
         AddCardCollection(CardCollectionKeys.Deck, new CardCollection());
         AddCardCollection(CardCollectionKeys.Hand, new CardCollection());
-        AddCardCollection(CardCollectionKeys.Board, new CardCollection());
         AddCardCollection(CardCollectionKeys.Graveyard, new CardCollection());
     }
 
@@ -25,7 +24,7 @@ public class GrimOwlPlayer : Player
         game.Execute(new DrawCardAction(this));
     }
 
-    public void SummonCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard)
+    public void SummonCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
     {
         if (!creatureCard.IsSummonable(game.State))
         {
@@ -33,6 +32,6 @@ public class GrimOwlPlayer : Player
                 "not playable!");
         }
 
-        game.Execute(new SummonCreatureAction(this, creatureCard));
+        game.Execute(new SummonCreatureAction(this, creatureCard, x, y));
     }
 }

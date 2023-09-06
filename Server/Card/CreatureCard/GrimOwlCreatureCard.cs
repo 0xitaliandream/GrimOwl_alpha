@@ -33,7 +33,6 @@ public class GrimOwlCreatureCard : Card
                 && Owner.GetCardCollection(CardCollectionKeys.Hand).Contains(this)
                 && Owner == state.ActivePlayer
                 && GetValue(StatKeys.Mana) <= state.ActivePlayer.GetValue(StatKeys.Mana)
-                && GetValue(StatKeys.ManaSpecial) <= state.ActivePlayer.GetValue(StatKeys.ManaSpecial)
-                && !state.ActivePlayer.GetCardCollection(CardCollectionKeys.Board).IsFull;
+                && GetValue(StatKeys.ManaSpecial) <= state.ActivePlayer.GetValue(StatKeys.ManaSpecial);
     }
 }

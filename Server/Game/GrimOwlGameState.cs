@@ -8,6 +8,9 @@ public class GrimOwlGameState : GameState
 {
     [JsonProperty]
     protected int activePlayerIndex;
+
+    [JsonProperty]
+    protected GrimOwlGrid grid = null!;
     
     protected GrimOwlGameState()
     {
@@ -29,11 +32,29 @@ public class GrimOwlGameState : GameState
     }
 
     [JsonIgnore]
+    public GrimOwlGrid Grid
+    {
+        get
+        {
+            return grid;
+        }
+        set
+        {
+            grid = value;
+        }
+    }
+
+    [JsonIgnore]
     public IEnumerable<IPlayer> NonActivePlayers
     {
         get
         {
             return Players.Where(p => p != ActivePlayer).ToImmutableList();
         }
+    }
+
+    public void AddGrid(GrimOwlGrid grimOwlGrid)
+    {
+        Grid = grimOwlGrid;
     }
 }

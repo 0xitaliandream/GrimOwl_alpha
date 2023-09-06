@@ -61,13 +61,12 @@ public class SummonCreatureAction : GameEngine.Action<GrimOwlGameState>
             new ModifyManaStatAction(Player, -CreatureCard.GetValue(StatKeys.Mana), 0),
             new ModifyManaSpecialStatAction(Player, -CreatureCard.GetValue(StatKeys.ManaSpecial), 0),
             new RemoveCardFromCardCollectionAction(Player.GetCardCollection(CardCollectionKeys.Hand), CreatureCard),
-            new AddCardToGridAction(game.State.Grid, CreatureCard, X, Y)
+            new AddCardToCellAction(game.State.Grid, CreatureCard, X, Y)
         });
     }
 
     public override bool IsExecutable(GrimOwlGameState gameState)
     {
         return CreatureCard.IsSummonable(gameState) && gameState.Grid.IsFree(X,Y);
-            
     }
 }

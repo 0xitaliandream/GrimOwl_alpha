@@ -10,10 +10,11 @@ public class WallGrappler : GrimOwlCreatureCard
         : base(
             mana: 3,
             manaSpecial: 0,
-            attack: 0,
-            life: 0,
-            range: 0,
-            energy: 0
+            attack: 1,
+            life: 1,
+            range: 1,
+            energy: 1,
+            movement: new List<string> { StatKeys.Strategist }
             )
     {
     }

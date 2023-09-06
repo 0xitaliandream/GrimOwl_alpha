@@ -96,7 +96,6 @@ public class CardCollection : ICardCollection
     public void Remove(ICard card)
     {
         cards.Remove(card);
-        card.Owner = null;
     }
 
     public void Shuffle()

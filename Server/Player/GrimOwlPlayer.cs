@@ -34,4 +34,14 @@ public class GrimOwlPlayer : Player
 
         game.Execute(new SummonCreatureAction(this, creatureCard, x, y));
     }
+
+    public void MoveCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
+    {
+        game.Execute(new MoveCreatureAction(this, creatureCard, x, y));
+    }
+
+    public List<GrimOwlPermanentCard> GetPermanents(GrimOwlGame game)
+    {
+        return game.State.Grid.GetPlayerPermanents(this);
+    } 
 }

@@ -2,12 +2,12 @@
 
 namespace GrimOwl;
 
-public class GrimOwlCreatureCardComponent : GrimOwlCardComponent
+public class GrimOwlCreatureStatsCardComponent : CardComponent
 {
-    protected GrimOwlCreatureCardComponent() { }
+    protected GrimOwlCreatureStatsCardComponent() { }
 
-    public GrimOwlCreatureCardComponent(int mana, int manaSpecial, int attack, int life, int range, int energy)
-        : base(mana, manaSpecial)
+    public GrimOwlCreatureStatsCardComponent(int attack, int life, int range, int energy)
+        : base(true)
     {
         AddStat(StatKeys.Attack, new Stat(attack, attack));
         AddStat(StatKeys.Life, new Stat(life, life));

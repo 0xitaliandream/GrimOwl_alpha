@@ -29,7 +29,7 @@ public class NextTurnAction : GameEngine.Action<GrimOwlGameState>
                 int manaSpecialDelta = activePlayer.GetBaseValue(StatKeys.ManaSpecial) + 1 - activePlayer.GetValue(StatKeys.ManaSpecial);
                 actions.Add(new ModifyManaSpecialStatAction(state.ActivePlayer, manaSpecialDelta, 1));
             }
-
+            actions.Add(new RestoreEnergyAction(state.ActivePlayer));
             actions.Add(new DrawCardAction(activePlayer));
 
             game.ExecuteSimultaneously(actions);

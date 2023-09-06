@@ -22,4 +22,7 @@ public class StatKeys
 
     public const string Energy = "Energy";
     public const int EnergyMax = 100;
+
+    public const string AvantGrade = "AvantGrade";
+    public const string Strategist = "Strategist";
 }

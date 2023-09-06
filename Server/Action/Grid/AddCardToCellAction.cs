@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 
 namespace GrimOwl;
 
-public class AddCardToGridAction : GameEngine.Action
+public class AddCardToCellAction : GameEngine.Action
 {
     [JsonProperty]
     protected GrimOwlGrid grid = null!;
 
     [JsonProperty]
-    protected ICard card = null!;
+    protected GrimOwlPermanentCard card = null!;
 
     [JsonProperty]
     protected int x;
@@ -18,9 +18,9 @@ public class AddCardToGridAction : GameEngine.Action
     [JsonProperty]
     protected int y;
 
-    protected AddCardToGridAction() { }
+    protected AddCardToCellAction() { }
 
-    public AddCardToGridAction(GrimOwlGrid grid, ICard card, int x, int y, bool isAborted = false)
+    public AddCardToCellAction(GrimOwlGrid grid, GrimOwlPermanentCard card, int x, int y, bool isAborted = false)
         : base(isAborted)
     {
         this.grid = grid;
@@ -50,7 +50,7 @@ public class AddCardToGridAction : GameEngine.Action
     }
 
     [JsonIgnore]
-    public ICard Card
+    public GrimOwlPermanentCard Card
     {
         get => card;
     }

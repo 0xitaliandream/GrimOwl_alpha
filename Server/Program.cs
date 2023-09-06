@@ -5,6 +5,7 @@ namespace GrimOwl;
 class MainClass
 {
     private const string CommandSummon = "S";
+    private const string MoveSummon = "M";
     private const string CommandEndTurn = "E";
     private const string CommandQuit = "Q";
 
@@ -39,7 +40,7 @@ class MainClass
         GrimOwlPlayer activePlayer = (GrimOwlPlayer)game.State.ActivePlayer;
 
         activePlayer.SummonCreature(game, (GrimOwlCreatureCard)activePlayer.GetCardCollection(CardCollectionKeys.Hand).First, 0, 0);
-
+        activePlayer.MoveCreature(game, (GrimOwlCreatureCard)game.State.Grid[0, 0]!, 1, 0);
     }
 
     private static GrimOwlGame CreateGame()
@@ -83,6 +84,7 @@ class MainClass
     {
         string options = "Choose command:\n";
         options += CommandSummon + " <id> <x> <y>: Summon monster card from hand (with <id>) to the board\n";
+        options += MoveSummon + " <id> <x> <y>: Move monster card (with <id>) on the board\n";
         options += CommandEndTurn + ": End Turn\n";
         options += CommandQuit + ": Quit\n";
         return options;
@@ -103,6 +105,11 @@ class MainClass
                     GrimOwlCreatureCard creatureCard = (GrimOwlCreatureCard)GetObjectById(game, inputParams[1]);
                     activePlayer.SummonCreature(game, creatureCard, int.Parse(inputParams[2]), int.Parse(inputParams[3]));
                     output = "Cast monster card";
+                    break;
+                case MoveSummon:
+                    GrimOwlCreatureCard creatureCard2 = (GrimOwlCreatureCard)GetObjectById(game, inputParams[1]);
+                    activePlayer.MoveCreature(game, creatureCard2, int.Parse(inputParams[2]), int.Parse(inputParams[3]));
+                    output = "Move monster card";
                     break;
                 case CommandEndTurn:
                     game.NextTurn();
@@ -132,7 +139,7 @@ class MainClass
             case 1:
                 return state.NonActivePlayers.First().GetCardCollection(CardCollectionKeys.Hand).GetByUniqueId(int.Parse(id.Substring(1)));
             case 2:
-                return state.NonActivePlayers.First().GetCardCollection(CardCollectionKeys.Board).GetByUniqueId(int.Parse(id.Substring(1)))!;
+                return state.Grid.GetByUniqueId(int.Parse(id.Substring(1)))!;
             case 3:
                 return state.ActivePlayer.GetCardCollection(CardCollectionKeys.Hand).GetByUniqueId(int.Parse(id.Substring(1)));
             case 4:

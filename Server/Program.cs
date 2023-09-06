@@ -1,4 +1,5 @@
 ﻿using GameEngine;
+using System.Numerics;
 
 namespace GrimOwl;
 
@@ -39,8 +40,8 @@ class MainClass
 
         GrimOwlPlayer activePlayer = (GrimOwlPlayer)game.State.ActivePlayer;
 
-        activePlayer.SummonCreature(game, (GrimOwlCreatureCard)activePlayer.GetCardCollection(CardCollectionKeys.Hand).First, 0, 0);
-        activePlayer.MoveCreature(game, (GrimOwlCreatureCard)game.State.Grid[0, 0]!, 1, 0);
+        activePlayer.SummonCreature(game, (GrimOwlCreatureCard)activePlayer.GetCardCollection(CardCollectionKeys.Hand).First, 1, 0);
+        // activePlayer.MoveCreature(game, (GrimOwlCreatureCard)game.State.Grid[0, 0]!, 1, 0);
     }
 
     private static GrimOwlGame CreateGame()
@@ -49,6 +50,9 @@ class MainClass
         for (int i = 0; i < 2; ++i)
         {
             IPlayer player = new GrimOwlPlayer();
+
+            GrimOwlCreatureCard creatureCard = new MalikII();
+            ((GrimOwlPlayer)player).SetKing(creatureCard);
 
             ICardCollection deck = player.GetCardCollection(CardCollectionKeys.Deck);
             for (int n = 0; n < 3; ++n)
@@ -65,6 +69,19 @@ class MainClass
         gameState.AddGrid(grimOwlGrid);
 
         GrimOwlGame game = new GrimOwlGame(gameState);
+
+        for (int i = 0; i < 2; ++i)
+        {
+            GrimOwlPlayer player = (GrimOwlPlayer)gameState.Players.ElementAt(i);
+            if (i == 0)
+            {
+                player.SpawnCreature(game, player.King, 0, 0);
+            }
+            else
+            {
+                player.SpawnCreature(game, player.King, 4, 0);
+            }
+        }
 
 
         foreach (GrimOwlPlayer player in gameState.Players)

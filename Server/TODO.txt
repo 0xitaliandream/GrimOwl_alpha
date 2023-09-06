@@ -1,8 +1,5 @@
-﻿
-finire i check sul movement: class movement and energy
+﻿king (summoning zone)
 
-
-king 
 nature and group buff
 attack
 

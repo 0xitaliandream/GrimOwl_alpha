@@ -8,6 +8,8 @@ public class GrimOwlPlayer : Player
 
     public int relativeTurn;
 
+    public GrimOwlCreatureCard king = null!;
+
     public GrimOwlPlayer(bool _ = true) : base(_)
     {
 
@@ -18,6 +20,24 @@ public class GrimOwlPlayer : Player
         AddCardCollection(CardCollectionKeys.Hand, new CardCollection());
         AddCardCollection(CardCollectionKeys.Graveyard, new CardCollection());
     }
+
+    public void SetKing(GrimOwlCreatureCard king)
+    {
+        King = king;
+    }
+
+    public GrimOwlCreatureCard King
+    {
+        get
+        {
+            return king;
+        }
+        set
+        {
+            king = value;
+        }
+    }
+
 
     public void DrawCard(GrimOwlGame game)
     {
@@ -35,6 +55,11 @@ public class GrimOwlPlayer : Player
         game.Execute(new SummonCreatureAction(this, creatureCard, x, y));
     }
 
+    public void SpawnCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
+    {
+        game.Execute(new SpawnCreatureAction(this, creatureCard, x, y));
+    }
+
     public void MoveCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
     {
         game.Execute(new MoveCreatureAction(this, creatureCard, x, y));
@@ -43,5 +68,5 @@ public class GrimOwlPlayer : Player
     public List<GrimOwlPermanentCard> GetPermanents(GrimOwlGame game)
     {
         return game.State.Grid.GetPlayerPermanents(this);
-    } 
+    }
 }

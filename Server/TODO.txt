@@ -1,6 +1,11 @@
-﻿king (summoning zone)
+﻿king (summoning zone) una reaction before summoning che controlla se sta summonando nella zona giusta altrimeti aborta
 
-nature and group buff
+remove energy on summon/spawn
+dead
 attack
 
+clean csbfg strings
+
 tags
+
+TESTING

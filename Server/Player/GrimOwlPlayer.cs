@@ -8,7 +8,7 @@ public class GrimOwlPlayer : Player
 
     public int relativeTurn;
 
-    public GrimOwlCreatureCard king = null!;
+    public GrimOwlKingCard king = null!;
 
     public GrimOwlPlayer(bool _ = true) : base(_)
     {
@@ -19,14 +19,16 @@ public class GrimOwlPlayer : Player
         AddCardCollection(CardCollectionKeys.Deck, new CardCollection());
         AddCardCollection(CardCollectionKeys.Hand, new CardCollection());
         AddCardCollection(CardCollectionKeys.Graveyard, new CardCollection());
+        AddCardCollection(CardCollectionKeys.Permanent, new CardCollection());
+
     }
 
-    public void SetKing(GrimOwlCreatureCard king)
+    public void SetKing(GrimOwlKingCard king)
     {
         King = king;
     }
 
-    public GrimOwlCreatureCard King
+    public GrimOwlKingCard King
     {
         get
         {
@@ -58,6 +60,11 @@ public class GrimOwlPlayer : Player
     public void SpawnCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
     {
         game.Execute(new SpawnCreatureAction(this, creatureCard, x, y));
+    }
+
+    public void AttackCreature(GrimOwlGame game, GrimOwlCreatureCard attacker, GrimOwlCreatureCard defender)
+    {
+        game.Execute(new AttackCreatureAction(attacker, defender));
     }
 
     public void MoveCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)

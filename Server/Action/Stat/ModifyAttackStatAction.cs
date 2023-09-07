@@ -3,10 +3,10 @@ using GameEngine;
 
 namespace GrimOwl;
 
-public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
+public class ModifyAttackStatAction : GameEngine.Action<GrimOwlGameState>
 {
     [JsonProperty]
-    protected IStatContainer manaful = null!;
+    protected IStatContainer attackFul = null!;
 
     [JsonProperty]
     protected int deltaValue;
@@ -14,24 +14,24 @@ public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
     [JsonProperty]
     protected int deltaBaseValue;
 
-    protected ModifyManaSpecialStatAction() { }
+    protected ModifyAttackStatAction() { }
 
-    public ModifyManaSpecialStatAction(
-        IStatContainer manaful,
+    public ModifyAttackStatAction(
+        IStatContainer attackFul,
         int deltaValue,
         int deltaBaseValue,
         bool isAborted = false
         ) : base(isAborted)
     {
-        this.manaful = manaful;
+        this.attackFul = attackFul;
         this.deltaValue = deltaValue;
         this.deltaBaseValue = deltaBaseValue;
     }
 
     [JsonIgnore]
-    public IStatContainer Manaful
+    public IStatContainer AttackFul
     {
-        get => manaful;
+        get => attackFul;
     }
 
     [JsonIgnore]
@@ -55,19 +55,18 @@ public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
 
     public override void Execute(IGame<GrimOwlGameState> game)
     {
-        int baseValue = Manaful.GetBaseValue(StatKeys.ManaSpecial);
-        int value = Manaful.GetValue(StatKeys.ManaSpecial);
+        int baseValue = AttackFul.GetBaseValue(StatKeys.Attack);
+        int value = AttackFul.GetValue(StatKeys.Attack);
 
-        if (baseValue + DeltaBaseValue > StatKeys.ManaSpecialMax)
+        if (baseValue + DeltaBaseValue > StatKeys.AttackMax)
         {
-            DeltaBaseValue = StatKeys.ManaSpecialMax - baseValue;
+            DeltaBaseValue = StatKeys.AttackMax - baseValue;
         }
 
         if (value + DeltaValue > baseValue + DeltaBaseValue)
         {
             DeltaValue = baseValue + DeltaBaseValue - value;
         }
-
-        Manaful.AddStat(StatKeys.ManaSpecial, new Stat(DeltaValue, DeltaBaseValue));
+        AttackFul.AddStat(StatKeys.Attack, new Stat(DeltaValue, DeltaBaseValue));
     }
 }

@@ -3,7 +3,7 @@ using GameEngine;
 
 namespace GrimOwl;
 
-public class ModifyManaStatAction : GameEngine.Action
+public class ModifyManaStatAction : GameEngine.Action<GrimOwlGameState>
 {
     [JsonProperty]
     protected IStatContainer manaful = null!;
@@ -48,7 +48,12 @@ public class ModifyManaStatAction : GameEngine.Action
         set => deltaBaseValue = value;
     }
 
-    public override void Execute(IGame game)
+    public override bool IsExecutable(GrimOwlGameState gameState)
+    {
+        return true;
+    }
+
+    public override void Execute(IGame<GrimOwlGameState> game)
     {
         int baseValue = Manaful.GetBaseValue(StatKeys.Mana);
         int value = Manaful.GetValue(StatKeys.Mana);
@@ -63,10 +68,5 @@ public class ModifyManaStatAction : GameEngine.Action
             DeltaValue = baseValue + DeltaBaseValue - value;
         }
         Manaful.AddStat(StatKeys.Mana, new Stat(DeltaValue, DeltaBaseValue));
-    }
-
-    public override bool IsExecutable(IGameState gameState)
-    {
-        return true;
     }
 }

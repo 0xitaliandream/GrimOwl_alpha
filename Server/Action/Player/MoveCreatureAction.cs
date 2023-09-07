@@ -59,8 +59,8 @@ public class MoveCreatureAction : GameEngine.Action<GrimOwlGameState>
     {
         game.ExecuteSequentially(new List<IAction> {
             new ModifyEnergyStatAction(CreatureCard, -game.State.Grid.Distance(CreatureCard.X, CreatureCard.Y, X2, Y2), 0),
-            new RemoveCardFromCellAction(game.State.Grid, CreatureCard),
-            new AddCardToCellAction(game.State.Grid, CreatureCard, X2, Y2)
+            new RemoveCardFromTerrainAction(game.State.Grid, CreatureCard),
+            new AddCardToTerrainAction(game.State.Grid, CreatureCard, X2, Y2)
         });
     }
 
@@ -68,6 +68,6 @@ public class MoveCreatureAction : GameEngine.Action<GrimOwlGameState>
     {
         int x = CreatureCard.X;
         int y = CreatureCard.Y;
-        return CreatureCard.CanMoveTo(gameState, X2, Y2) && !gameState.Grid.IsFree(x, y) && gameState.Grid[x, y] == CreatureCard && gameState.Grid.IsFree(X2, Y2);
+        return CreatureCard.CanMoveTo(gameState, X2, Y2) && !gameState.Grid[x, y].IsFree() && gameState.Grid[x, y].PermanentCard == CreatureCard && gameState.Grid[X2,Y2].IsFree();
     }
 }

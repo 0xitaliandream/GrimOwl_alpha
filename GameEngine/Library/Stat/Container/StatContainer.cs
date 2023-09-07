@@ -64,4 +64,20 @@ public abstract class StatContainer : IStatContainer
             return stats[key].Sum(s => s.BaseValue);
         }
     }
+
+    public virtual void InvertStats()
+    {
+        foreach (KeyValuePair<string, IList<IStat>> stat in stats)
+        {
+            foreach (IStat s in stat.Value)
+            {
+                s.Invert();
+            }
+        }
+    }
+
+    public virtual void ResetStats()
+    {
+        stats.Clear();
+    }
 }

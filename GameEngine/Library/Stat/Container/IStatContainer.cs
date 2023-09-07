@@ -26,4 +26,11 @@ public interface IStatContainer
     /// Base value of this IStatContainer.
     /// </summary>
     int GetBaseValue(string key);
+
+    /// <summary>
+    /// Invert the values and the base values of all the Stats.
+    /// </summary>
+    void InvertStats();
+
+    void ResetStats();
 }

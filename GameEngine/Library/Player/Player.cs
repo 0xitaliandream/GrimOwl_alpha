@@ -59,7 +59,6 @@ public class Player : StatContainer, IPlayer
         {
             return false;
         }
-        cardCollections[key].Owner = null;
         return cardCollections.Remove(key);
     }
 

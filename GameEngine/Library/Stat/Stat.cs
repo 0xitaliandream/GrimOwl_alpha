@@ -60,4 +60,10 @@ public class Stat : IStat
         get => maxValue;
         set => this.maxValue = value;
     }
+
+    public virtual void Invert()
+    {
+        Value = -Value;
+        BaseValue = -BaseValue;
+    }
 }

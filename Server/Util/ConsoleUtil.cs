@@ -150,7 +150,7 @@ public static class ConsoleUtil
 
     public static void PrintBoard(GrimOwlGameState gameState, int idPrefix)
     {
-        var grid = gameState.Grid.Cells;
+        var grid = gameState.Grid.Terrains;
         int rowCount = gameState.Grid.Rows;
         int colCount = gameState.Grid.Columns;
         int cellHeight = 9; // altezza di ogni cella "quadrata"
@@ -162,7 +162,7 @@ public static class ConsoleUtil
             {
                 for (int col = 0; col < colCount; ++col)
                 {
-                    ICard? card = grid[col, row];
+                    GrimOwlPermanentCard? card = grid[col, row].PermanentCard;
 
                     string line = "";
 
@@ -188,22 +188,31 @@ public static class ConsoleUtil
                         }
                         else if (h == 3 && card is GrimOwlCreatureCard)
                         {
-                            line = $"|Attk: {card.GetValue(StatKeys.Attack):D2}".PadRight(cellWidth - 1) + "|";
+                            CardComponent buffComponent = card.GetComponent<GrimOwlCreatureBuffStatsStatsCardComponent>()!;
+
+                            line = $"|Attk: {card.GetValue(StatKeys.Attack):D2} - ({buffComponent.GetValue(StatKeys.Attack)})".PadRight(cellWidth - 1) + "|";
+
                             Console.ForegroundColor = ColorAttack;
                         }
                         else if (h == 4 && card is GrimOwlCreatureCard)
                         {
-                            line = $"|Life: {card.GetValue(StatKeys.Life):D2}".PadRight(cellWidth - 1) + "|";
+                            CardComponent buffComponent = card.GetComponent<GrimOwlCreatureBuffStatsStatsCardComponent>()!;
+
+                            line = $"|Life: {card.GetValue(StatKeys.Life):D2} - ({buffComponent.GetValue(StatKeys.Life)})".PadRight(cellWidth - 1) + "|";
                             Console.ForegroundColor = ColorLife;
                         }
                         else if (h == 5 && card is GrimOwlCreatureCard)
                         {
-                            line = $"|Enrg: {card.GetValue(StatKeys.Energy):D2}".PadRight(cellWidth - 1) + "|";
+                            CardComponent buffComponent = card.GetComponent<GrimOwlCreatureBuffStatsStatsCardComponent>()!;
+
+                            line = $"|Enrg: {card.GetValue(StatKeys.Energy):D2} - ({buffComponent.GetValue(StatKeys.Energy)}) ".PadRight(cellWidth - 1) + "|";
                             Console.ForegroundColor = ColorEnergy;
                         }
                         else if (h == 6 && card is GrimOwlCreatureCard)
                         {
-                            line = $"|Rang: {card.GetValue(StatKeys.Range):D2}".PadRight(cellWidth - 1) + "|";
+                            CardComponent buffComponent = card.GetComponent<GrimOwlCreatureBuffStatsStatsCardComponent>()!;
+
+                            line = $"|Rang: {card.GetValue(StatKeys.Range):D2} - ({buffComponent.GetValue(StatKeys.Range)})".PadRight(cellWidth - 1) + "|";
                             Console.ForegroundColor = ColorRange;
                         }
                         else if (h == 7 && card is GrimOwlCreatureCard)

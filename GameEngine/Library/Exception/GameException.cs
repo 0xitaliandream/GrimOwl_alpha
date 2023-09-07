@@ -2,7 +2,7 @@
 
 public class GameException : Exception
 {
-    protected const string MessagePrefix = "C# Battle Card Game Framework EXCEPTION: ";
+    protected const string MessagePrefix = "C# Game EXCEPTION: ";
 
     /// <summary>
     /// Library specific Exception. Usually thrown when the Game's

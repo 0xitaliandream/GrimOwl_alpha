@@ -1,5 +1,7 @@
 ﻿using GameEngine;
 using Newtonsoft.Json;
+using System;
+using System.ComponentModel;
 
 namespace GrimOwl;
 
@@ -12,13 +14,19 @@ public class GrimOwlCreatureCard : GrimOwlPermanentCard
     {
     }
 
-    public GrimOwlCreatureCard(int mana, int manaSpecial, int attack, int life, int range, int energy, List<string> movement) : base(mana, manaSpecial)
+    public GrimOwlCreatureCard(int mana, int manaSpecial, int attack, int life, int range, int energy, List<string> movement, List<string> natures) : base(mana, manaSpecial, natures)
     {
-        this.isReadyToAttack = false;
+        this.isReadyToAttack = true;
 
         AddComponent(new GrimOwlCreatureStatsCardComponent(attack, life, range, energy));
 
         AddComponent(new GrimOwlCreatureMovementsCardComponent(movement));
+
+        AddComponent(new GrimOwlCreatureBuffStatsStatsCardComponent());
+
+        AddReaction(new AddTerrainModificatorsReaction(this));
+
+        AddReaction(new DieOnModifyLifeStatActionReaction(this));
 
     }
 
@@ -27,6 +35,31 @@ public class GrimOwlCreatureCard : GrimOwlPermanentCard
     {
         get => isReadyToAttack;
         set => isReadyToAttack = value;
+    }
+
+    [JsonIgnore]
+    public List<string> Movements
+    {
+        get
+        {
+
+            List<string> movements = new List<string>();
+            CardComponent cardComponent = GetComponent<GrimOwlCreatureMovementsCardComponent>() ?? null!;
+
+            if (cardComponent != null)
+            {
+                foreach (KeyValuePair<string, IList<IStat>> movement in cardComponent.Stats)
+                {
+                    if (this.GetValue(movement.Key) > 0)
+                    {
+                        movements.Add(movement.Key);
+                    }
+                }
+            }
+
+            return movements;
+
+        }
     }
 
     public virtual bool IsSummonable(GrimOwlGameState gameState)
@@ -47,14 +80,21 @@ public class GrimOwlCreatureCard : GrimOwlPermanentCard
         int y = this.Y;
         int currentEnergy = this.GetValue(StatKeys.Energy);
 
-        if (this.GetValue(StatKeys.AvantGrade) > 0)
+        foreach (string movement in Movements)
         {
-            gameState.Grid.GetAvailableAvantGradeMoves(currentEnergy, x, y, moves);
+            switch (movement)
+            {
+                case StatKeys.AvantGrade:
+                    gameState.Grid.GetAvailableAvantGradeMoves(currentEnergy, x, y, moves);
+                    break;
+                case StatKeys.Strategist:
+                    gameState.Grid.GetAvailableStrategistMoves(currentEnergy, x, y, moves);
+                    break;
+
+            }
         }
-        if (this.GetValue(StatKeys.Strategist) > 0)
-        {
-            gameState.Grid.GetAvailableStrategistMoves(currentEnergy, x, y, moves);
-        }
+
+        
 
         return moves;
     }
@@ -69,4 +109,16 @@ public class GrimOwlCreatureCard : GrimOwlPermanentCard
                 && Owner == state.ActivePlayer
                 && possibleMoves.Contains((x, y));
     }
+
+    public virtual List<IStatContainer> GetPotentialTargets(GrimOwlGameState gameState)
+    {
+        int x = this.X;
+        int y = this.Y;
+        int currentRange = this.GetValue(StatKeys.Range);
+
+        List<IStatContainer> potentialTargets = new List<IStatContainer>();
+        gameState.Grid.GetPotentialCreatureTargets(Owner!, currentRange, x, y, potentialTargets);
+        return potentialTargets;
+    }
+
 }

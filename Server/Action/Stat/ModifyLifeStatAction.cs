@@ -3,10 +3,10 @@ using GameEngine;
 
 namespace GrimOwl;
 
-public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
+public class ModifyLifeStatAction : GameEngine.Action<GrimOwlGameState>
 {
     [JsonProperty]
-    protected IStatContainer manaful = null!;
+    protected IStatContainer lifeFul = null!;
 
     [JsonProperty]
     protected int deltaValue;
@@ -14,24 +14,24 @@ public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
     [JsonProperty]
     protected int deltaBaseValue;
 
-    protected ModifyManaSpecialStatAction() { }
+    protected ModifyLifeStatAction() { }
 
-    public ModifyManaSpecialStatAction(
-        IStatContainer manaful,
+    public ModifyLifeStatAction(
+        IStatContainer lifeFul,
         int deltaValue,
         int deltaBaseValue,
         bool isAborted = false
         ) : base(isAborted)
     {
-        this.manaful = manaful;
+        this.lifeFul = lifeFul;
         this.deltaValue = deltaValue;
         this.deltaBaseValue = deltaBaseValue;
     }
 
     [JsonIgnore]
-    public IStatContainer Manaful
+    public IStatContainer LifeFul
     {
-        get => manaful;
+        get => lifeFul;
     }
 
     [JsonIgnore]
@@ -55,19 +55,18 @@ public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
 
     public override void Execute(IGame<GrimOwlGameState> game)
     {
-        int baseValue = Manaful.GetBaseValue(StatKeys.ManaSpecial);
-        int value = Manaful.GetValue(StatKeys.ManaSpecial);
+        int baseValue = LifeFul.GetBaseValue(StatKeys.Life);
+        int value = LifeFul.GetValue(StatKeys.Life);
 
-        if (baseValue + DeltaBaseValue > StatKeys.ManaSpecialMax)
+        if (baseValue + DeltaBaseValue > StatKeys.LifeMax)
         {
-            DeltaBaseValue = StatKeys.ManaSpecialMax - baseValue;
+            DeltaBaseValue = StatKeys.LifeMax - baseValue;
         }
 
         if (value + DeltaValue > baseValue + DeltaBaseValue)
         {
             DeltaValue = baseValue + DeltaBaseValue - value;
         }
-
-        Manaful.AddStat(StatKeys.ManaSpecial, new Stat(DeltaValue, DeltaBaseValue));
+        LifeFul.AddStat(StatKeys.Life, new Stat(DeltaValue, DeltaBaseValue));
     }
 }

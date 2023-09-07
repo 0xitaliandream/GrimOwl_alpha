@@ -3,7 +3,7 @@ using GameEngine;
 
 namespace GrimOwl;
 
-public class ModifyEnergyStatAction : GameEngine.Action
+public class ModifyEnergyStatAction : GameEngine.Action<GrimOwlGameState>
 {
     [JsonProperty]
     protected IStatContainer energyful = null!;
@@ -48,7 +48,12 @@ public class ModifyEnergyStatAction : GameEngine.Action
         set => deltaBaseValue = value;
     }
 
-    public override void Execute(IGame game)
+    public override bool IsExecutable(GrimOwlGameState gameState)
+    {
+        return true;
+    }
+
+    public override void Execute(IGame<GrimOwlGameState> game)
     {
         int baseValue = Energyful.GetBaseValue(StatKeys.Energy);
         int value = Energyful.GetValue(StatKeys.Energy);
@@ -64,10 +69,5 @@ public class ModifyEnergyStatAction : GameEngine.Action
         }
 
         Energyful.AddStat(StatKeys.Energy, new Stat(DeltaValue, DeltaBaseValue));
-    }
-
-    public override bool IsExecutable(IGameState gameState)
-    {
-        return true;
     }
 }

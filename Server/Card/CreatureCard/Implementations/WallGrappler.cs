@@ -1,5 +1,6 @@
 ﻿using GameEngine;
 
+
 namespace GrimOwl;
 
 public class WallGrappler : GrimOwlCreatureCard
@@ -12,9 +13,10 @@ public class WallGrappler : GrimOwlCreatureCard
             manaSpecial: 0,
             attack: 1,
             life: 1,
-            range: 1,
+            range: 2,
             energy: 1,
-            movement: new List<string> { StatKeys.Strategist }
+            movement: new List<string> { StatKeys.Strategist },
+            natures: new List<string> { StatKeys.Feral }
             )
     {
     }

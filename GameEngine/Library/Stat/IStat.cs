@@ -21,4 +21,9 @@ public interface IStat
     /// Maximum value for atomic and base value.
     /// </summary>
     int MaxValue { get; set; }
+
+    /// <summary>
+    /// Invert Stat's value and base value.
+    /// </summary>
+    void Invert();
 }

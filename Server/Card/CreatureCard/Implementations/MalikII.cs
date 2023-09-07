@@ -1,8 +1,9 @@
 ﻿using GameEngine;
 
+
 namespace GrimOwl;
 
-public class MalikII : GrimOwlCreatureCard
+public class MalikII : GrimOwlKingCard
 {
     protected MalikII() { }
 
@@ -14,7 +15,8 @@ public class MalikII : GrimOwlCreatureCard
             life: 1,
             range: 1,
             energy: 1,
-            movement: new List<string> { StatKeys.Strategist }
+            movement: new List<string> { StatKeys.Strategist },
+            natures: new List<string> { StatKeys.Feral }
             )
     {
     }

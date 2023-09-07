@@ -57,14 +57,14 @@ public class SpawnCreatureAction : GameEngine.Action<GrimOwlGameState>
 
     public override void Execute(IGame<GrimOwlGameState> game)
     {
-        CreatureCard.Owner = Player;
-        game.ExecuteSequentially(new List<IAction> {
-            new AddCardToCellAction(game.State.Grid, CreatureCard, X, Y)
+        game.ExecuteSimultaneously(new List<IAction> {
+            new AddCardToCardCollectionAction(Player.GetCardCollection(CardCollectionKeys.Permanent), CreatureCard),
+            new AddCardToTerrainAction(game.State.Grid, CreatureCard, X, Y)
         });
     }
 
     public override bool IsExecutable(GrimOwlGameState gameState)
     {
-        return gameState.Grid.IsFree(X,Y);
+        return gameState.Grid[X,Y].IsFree();
     }
 }

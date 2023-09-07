@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace GrimOwl;
 
-public class GrimOwlPermanentCard : Card
+public class GrimOwlPermanentCard : GrimOwlCard
 {
 
     [JsonProperty]
@@ -15,9 +15,9 @@ public class GrimOwlPermanentCard : Card
     {
     }
 
-    public GrimOwlPermanentCard(int mana, int manaSpecial) : base(true)
+    public GrimOwlPermanentCard(int mana, int manaSpecial, List<string> natures) : base(mana, manaSpecial, natures)
     {
-        AddComponent(new GrimOwlManasCardComponent(mana, manaSpecial));
+        
     }
 
     [JsonIgnore]

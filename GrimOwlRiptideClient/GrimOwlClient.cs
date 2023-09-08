@@ -71,6 +71,6 @@ public class GrimOwlClient
 
         string test = message.GetString();
 
-        Instance.OnNewGameState?.Invoke(test);
+        Instance.OnNewGameUpdate?.Invoke(test);
     }
 }

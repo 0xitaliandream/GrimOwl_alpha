@@ -11,4 +11,8 @@
     <PackageReference Include="RiptideNetworking.Riptide" Version="2.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GrimOwlGameEngine\GrimOwlGameEngine.csproj" />
+  </ItemGroup>
+
 </Project>

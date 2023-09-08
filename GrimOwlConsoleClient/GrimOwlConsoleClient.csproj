@@ -7,4 +7,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\GrimOwlGameEngine\GrimOwlGameEngine.csproj" />
+  </ItemGroup>
+
 </Project>

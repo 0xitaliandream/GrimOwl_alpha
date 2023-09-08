@@ -3,11 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameEngine", "GameEngine\GameEngine.csproj", "{52CF7D18-632B-41C7-BFF7-A2CCDC217C45}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameEngine", "GameEngine\GameEngine.csproj", "{52CF7D18-632B-41C7-BFF7-A2CCDC217C45}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GrimOwl", "Server\GrimOwl.csproj", "{7B5BBE41-4EC9-46A1-B257-44EBA85E3E3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimOwlConsoleGuiClient", "GrimOwlConsoleClient\GrimOwlConsoleGuiClient.csproj", "{9968BAF7-BD22-40DB-B86E-6B948CAC359C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkEngine", "NetworkEngine\NetworkEngine.csproj", "{A41D259D-CF6D-4A70-82CA-1397C2AAB954}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimOwlConsoleClient", "GrimOwlConsoleClient\GrimOwlConsoleClient.csproj", "{484FAA48-AEBE-40D9-A34D-A868481004C7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimOwlGameEngine", "GrimOwlGameEngine\GrimOwlGameEngine.csproj", "{4067959C-D4C4-40CD-9183-0CDDA56BFD85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimOwlRiptideClient", "GrimOwlRiptideClient\GrimOwlRiptideClient.csproj", "{DF41BA98-DAC8-43F4-B129-088308112531}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GrimOwlRiptideServer", "GrimOwlRiptideServer\GrimOwlRiptideServer.csproj", "{027E2A97-01A0-465A-BB6E-FD45738CAE6D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +25,26 @@ Global
 		{52CF7D18-632B-41C7-BFF7-A2CCDC217C45}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{52CF7D18-632B-41C7-BFF7-A2CCDC217C45}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{52CF7D18-632B-41C7-BFF7-A2CCDC217C45}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B5BBE41-4EC9-46A1-B257-44EBA85E3E3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B5BBE41-4EC9-46A1-B257-44EBA85E3E3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B5BBE41-4EC9-46A1-B257-44EBA85E3E3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B5BBE41-4EC9-46A1-B257-44EBA85E3E3C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A41D259D-CF6D-4A70-82CA-1397C2AAB954}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A41D259D-CF6D-4A70-82CA-1397C2AAB954}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A41D259D-CF6D-4A70-82CA-1397C2AAB954}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A41D259D-CF6D-4A70-82CA-1397C2AAB954}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9968BAF7-BD22-40DB-B86E-6B948CAC359C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9968BAF7-BD22-40DB-B86E-6B948CAC359C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9968BAF7-BD22-40DB-B86E-6B948CAC359C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9968BAF7-BD22-40DB-B86E-6B948CAC359C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{484FAA48-AEBE-40D9-A34D-A868481004C7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{484FAA48-AEBE-40D9-A34D-A868481004C7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{484FAA48-AEBE-40D9-A34D-A868481004C7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{484FAA48-AEBE-40D9-A34D-A868481004C7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4067959C-D4C4-40CD-9183-0CDDA56BFD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4067959C-D4C4-40CD-9183-0CDDA56BFD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4067959C-D4C4-40CD-9183-0CDDA56BFD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4067959C-D4C4-40CD-9183-0CDDA56BFD85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DF41BA98-DAC8-43F4-B129-088308112531}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DF41BA98-DAC8-43F4-B129-088308112531}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DF41BA98-DAC8-43F4-B129-088308112531}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DF41BA98-DAC8-43F4-B129-088308112531}.Release|Any CPU.Build.0 = Release|Any CPU
+		{027E2A97-01A0-465A-BB6E-FD45738CAE6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{027E2A97-01A0-465A-BB6E-FD45738CAE6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{027E2A97-01A0-465A-BB6E-FD45738CAE6D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{027E2A97-01A0-465A-BB6E-FD45738CAE6D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

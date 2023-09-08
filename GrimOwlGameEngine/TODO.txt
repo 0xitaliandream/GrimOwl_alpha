@@ -1,0 +1,9 @@
+﻿king (summoning zone) una reaction before summoning che controlla se sta summonando nella zona giusta altrimeti aborta
+
+fare path distance ecc per buchi nella grid se c'è un buco non farlo passare o costa piu energia
+
+remove energy on summon/spawn
+clean csbfg strings
+tags
+
+TESTING

@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿
 
 namespace GameEngine;
 
 public abstract class Action : IAction
 {
-    [JsonProperty]
+    
     protected bool isAborted;
 
     protected Action() { }
@@ -14,7 +14,7 @@ public abstract class Action : IAction
         this.isAborted = isAborted;
     }
 
-    [JsonIgnore]
+    
     public bool IsAborted
     {
         get => isAborted;

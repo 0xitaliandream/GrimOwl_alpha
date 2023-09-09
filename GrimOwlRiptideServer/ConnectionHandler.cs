@@ -74,7 +74,7 @@ public static class ConnectionHandler
 
         ClientHello(pendingConnection, playerJwtAuthToken);
 
-        Message message = MessageSenderHandler.GenerateMessage(new object[] { "ServerHello" }, (ushort)MConnection.ServerHello);
+        Message message = MessageSenderHandler.GenerateMessage(new object[] { "ServerHello" }, (ushort)MServer.ServerHello);
         MessageSenderHandler.SendMessageToConnection(pendingConnection, message);
 
     }

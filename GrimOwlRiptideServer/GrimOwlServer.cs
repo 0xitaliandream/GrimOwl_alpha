@@ -11,7 +11,10 @@ public static class GrimOwlServer
     internal static Riptide.Server server = new() { TimeoutTime = 5 * 1000 };
     internal static bool isServerRunning;
     private static Thread? serverThread;
-    public static GrimOwlGame game = null!; 
+    public static GrimOwlGame game = null!;
+
+
+    public static event Action<string> OnGrimOwlPlayerCommand = delegate { };
 
 
     public static void Run(int serverIdTokenInit, int numberOfPlayerInit)
@@ -25,8 +28,7 @@ public static class GrimOwlServer
             Stop();
         };
 
-        GrimOwlGameState grimOwlGameState = new GrimOwlGameState();
-        game = new GrimOwlGame(grimOwlGameState);
+        game = new GrimOwlGame(new GrimOwlGameState());
 
         Console.WriteLine("ServerInstance created");
 

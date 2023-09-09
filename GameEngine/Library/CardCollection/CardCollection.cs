@@ -1,17 +1,17 @@
 ﻿using System.Collections.Immutable;
-using Newtonsoft.Json;
+
 
 namespace GameEngine;
 
 public class CardCollection : ICardCollection
 {
-    [JsonProperty]
+    
     protected IPlayer? owner;
 
-    [JsonProperty]
+    
     protected int? maxSize;
 
-    [JsonProperty]
+    
     protected List<ICard> cards = null!;
 
     protected CardCollection() { }
@@ -22,19 +22,19 @@ public class CardCollection : ICardCollection
         cards = new List<ICard>();
     }
 
-    [JsonIgnore]
+    
     public IEnumerable<ICard> Cards => cards.ToImmutableList();
 
-    [JsonIgnore]
+    
     public bool IsEmpty => cards.Count == 0;
 
-    [JsonIgnore]
+    
     public bool IsFull => maxSize != null && cards.Count >= maxSize;
 
-    [JsonIgnore]
+    
     public int Size => cards.Count;
 
-    [JsonIgnore]
+    
     public IPlayer? Owner
     {
         get
@@ -47,7 +47,7 @@ public class CardCollection : ICardCollection
         }
     }
 
-    [JsonIgnore]
+    
     public int? MaxSize
     {
         get
@@ -60,19 +60,19 @@ public class CardCollection : ICardCollection
         }
     }
 
-    [JsonIgnore]
+    
     public ICard this[int index]
     {
         get => cards[index];
     }
 
-    [JsonIgnore]
+    
     public ICard First
     {
         get => cards[0];
     }
 
-    [JsonIgnore]
+    
     public ICard Last
     {
         get => cards[cards.Count - 1];

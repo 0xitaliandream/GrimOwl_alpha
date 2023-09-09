@@ -1,11 +1,11 @@
 using System.Collections.Immutable;
-using Newtonsoft.Json;
+
 
 namespace GameEngine;
 
 public abstract class StatContainer : IStatContainer
 {
-    [JsonProperty]
+    
     protected IDictionary<string, IList<IStat>> stats = null!;
 
     protected StatContainer() { }
@@ -15,7 +15,7 @@ public abstract class StatContainer : IStatContainer
         stats = new Dictionary<string, IList<IStat>>();
     }
 
-    [JsonIgnore]
+    
     public IDictionary<string, IList<IStat>> Stats
     {
         get => stats.ToImmutableDictionary();

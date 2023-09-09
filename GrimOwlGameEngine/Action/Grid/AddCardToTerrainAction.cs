@@ -1,21 +1,21 @@
 ﻿
 using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class AddCardToTerrainAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected GrimOwlGrid grid = null!;
 
-    [JsonProperty]
+    
     protected GrimOwlPermanentCard card = null!;
 
-    [JsonProperty]
+    
     protected int x;
 
-    [JsonProperty]
+    
     protected int y;
 
     protected AddCardToTerrainAction() { }
@@ -30,26 +30,26 @@ public class AddCardToTerrainAction : GameEngine.Action<GrimOwlGameState>
         this.y = y;
     }
 
-    [JsonIgnore]
+    
     public int X
     {
         get => x;
     }
 
-    [JsonIgnore]
+    
     public int Y
     {
         get => y;
     }
 
 
-    [JsonIgnore]
+    
     public GrimOwlGrid Grid
     {
         get => grid;
     }
 
-    [JsonIgnore]
+    
     public GrimOwlPermanentCard Card
     {
         get => card;

@@ -1,17 +1,18 @@
 ﻿
-using Newtonsoft.Json;
+
+using ProtoBuf;
 
 namespace GameEngine;
 
 public class Game<T> : IGame<T> where T : IGameState
 {
-    [JsonProperty]
+    
     protected T state = default(T)!;
 
-    [JsonProperty]
+    
     protected bool isGameOver = false;
 
-    [JsonProperty]
+    
     protected bool executeReactions { get; set; }
 
     protected Game()
@@ -25,13 +26,13 @@ public class Game<T> : IGame<T> where T : IGameState
         this.isGameOver = isGameOver;
     }
 
-    [JsonIgnore]
+    
     public T State
     {
         get => state;
     }
 
-    [JsonIgnore]
+    
     IGameState IGame.State
     {
         get => state;

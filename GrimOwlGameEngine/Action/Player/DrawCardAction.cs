@@ -1,14 +1,14 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class DrawCardAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected IPlayer player = null!;
 
-    [JsonProperty]
+    
     protected ICard? drawnCard;
 
     protected DrawCardAction() { }
@@ -19,13 +19,13 @@ public class DrawCardAction : GameEngine.Action<GrimOwlGameState>
         this.player = player;
     }
 
-    [JsonIgnore]
+    
     public IPlayer Player
     {
         get => player;
     }
 
-    [JsonIgnore]
+    
     public ICard? DrawnCard
     {
         get => drawnCard;

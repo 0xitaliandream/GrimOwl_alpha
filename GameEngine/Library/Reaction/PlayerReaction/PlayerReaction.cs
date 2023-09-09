@@ -1,5 +1,5 @@
 
-using Newtonsoft.Json;
+
 
 namespace GameEngine;
 
@@ -8,7 +8,7 @@ public abstract class PlayerReaction<T, TGame, TAction> : Reaction<T, TGame, TAc
     where TGame : IGame<T>
     where TAction : IAction<T>
 {
-    [JsonProperty]
+    
     protected IPlayer parentPlayer = null!;
 
     protected PlayerReaction() { }
@@ -18,7 +18,7 @@ public abstract class PlayerReaction<T, TGame, TAction> : Reaction<T, TGame, TAc
         this.parentPlayer = parentPlayer;
     }
 
-    [JsonIgnore]
+    
     public IPlayer ParentPlayer
     {
         get

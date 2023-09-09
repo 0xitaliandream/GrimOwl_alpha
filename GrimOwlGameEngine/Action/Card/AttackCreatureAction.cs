@@ -1,14 +1,14 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class AttackCreatureAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected GrimOwlCreatureCard attacker = null!;
 
-    [JsonProperty]
+    
     protected IStatContainer target = null!;
 
     protected AttackCreatureAction() { }
@@ -20,13 +20,13 @@ public class AttackCreatureAction : GameEngine.Action<GrimOwlGameState>
         this.target = target;
     }
 
-    [JsonIgnore]
+    
     public GrimOwlCreatureCard Attacker
     {
         get => attacker;
     }
 
-    [JsonIgnore]
+    
     public IStatContainer Target
     {
         get => target;

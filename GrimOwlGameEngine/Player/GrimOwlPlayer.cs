@@ -10,8 +10,12 @@ public class GrimOwlPlayer : Player
 
     public GrimOwlKingCard king = null!;
 
+    private GrimOwlPlayerCommandController commandController = null!;
+
     public GrimOwlPlayer(bool _ = true) : base(_)
     {
+
+        CommandController = new GrimOwlPlayerCommandController(this);
 
         AddStat(StatKeys.Mana, new Stat(0, 0));
         AddStat(StatKeys.ManaSpecial, new Stat(0, 0));
@@ -37,6 +41,18 @@ public class GrimOwlPlayer : Player
         set
         {
             king = value;
+        }
+    }
+
+    public GrimOwlPlayerCommandController CommandController
+    {
+        get
+        {
+            return commandController;
+        }
+        set
+        {
+            commandController = value;
         }
     }
 

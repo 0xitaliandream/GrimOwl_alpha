@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿
 using GameEngine;
 using System.Collections.Generic;
 
@@ -6,10 +6,10 @@ namespace GrimOwlGameEngine;
 
 public class ModifyBuffStatsCreatureAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected GrimOwlCreatureCard creatureCard = null!;
 
-    [JsonProperty]
+    
     protected IStatContainer statContainer = null!;
 
     protected ModifyBuffStatsCreatureAction() { }
@@ -24,13 +24,13 @@ public class ModifyBuffStatsCreatureAction : GameEngine.Action<GrimOwlGameState>
         this.statContainer = statContainer;
     }
 
-    [JsonIgnore]
+    
     public IStatContainer StatContainer
     {
         get => statContainer;
     }
 
-    [JsonIgnore]
+    
     public GrimOwlCreatureCard CreatureCard
     {
         get => creatureCard;

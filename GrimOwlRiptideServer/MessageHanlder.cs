@@ -1,5 +1,6 @@
 using GrimOwlGameEngine;
 using Riptide;
+using System.Diagnostics;
 
 namespace GrimOwlRiptideServer;
 
@@ -64,5 +65,66 @@ public static class MessageSenderHandler
         return msg_temp;
     }
 
+
+}
+
+
+public static class MessageReceiverHandler
+{
+
+    [MessageHandler((ushort)MClient.ClientCommand)]
+    private static void ClientCommand(ushort fromClientId, Message message)
+    {
+
+        Console.WriteLine("ClientCommand received");
+
+        bool status = GrimOwlServer.server.TryGetClient(fromClientId, out Connection client);
+        if (!status)
+        {
+            Console.WriteLine($"Client {fromClientId} sent ClientCommand but was not connected");
+            return;
+        }
+
+        //Check if connection is in connectionsToPlayer
+        if (!ConnectionHandler.ConnectionIds().Contains(client.Id))
+        {
+            Console.WriteLine($"Client {client.Id} not valid");
+            return;
+        }
+
+        //Get playerUid from connectionsToPlayer
+        int playerId = ConnectionHandler.ConnectionToPlayerId(client);
+        if (playerId == -1)
+        {
+            Console.WriteLine($"Client {client.Id} not valid");
+            return;
+        }
+
+        GrimOwlPlayer player = ConnectionHandler.connectionsToGrimOwlPlayer[playerId];
+
+        // deserialize message
+
+        bool newGameState = player.CommandController.HandleCommand(GrimOwlServer.game, "deserializedMassage");
+        if (!newGameState)
+        {
+            Console.WriteLine($"Command Error");
+
+            // send message to player
+            Message messageTemp = MessageSenderHandler.GenerateMessage(new object[] { "CommandError" }, (ushort)MServer.CommandError);
+            MessageSenderHandler.SendMessageToPlayer(player, messageTemp);
+
+            return;
+        }
+
+
+        // send message to all players
+        foreach (KeyValuePair<int, GrimOwlPlayer> playerPair in ConnectionHandler.connectionsToGrimOwlPlayer)
+        {
+            GrimOwlPlayer playerTemp = playerPair.Value;
+            Message messageTemp = MessageSenderHandler.GenerateMessage(new object[] { "GameUpdate" }, (ushort)MServer.GameUpdate);
+            MessageSenderHandler.SendMessageToPlayer(playerTemp, messageTemp);
+        }
+
+    }
 
 }

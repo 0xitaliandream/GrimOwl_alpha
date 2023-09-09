@@ -1,4 +1,7 @@
-﻿king (summoning zone) una reaction before summoning che controlla se sta summonando nella zona giusta altrimeti aborta
+﻿fare hook di serialize e poi fare in modo che dal server possiamo usare gli scenari
+
+
+king (summoning zone) una reaction before summoning che controlla se sta summonando nella zona giusta altrimeti aborta
 
 fare path distance ecc per buchi nella grid se c'è un buco non farlo passare o costa piu energia
 

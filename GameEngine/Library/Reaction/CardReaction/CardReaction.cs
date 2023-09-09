@@ -1,5 +1,5 @@
 
-using Newtonsoft.Json;
+
 
 namespace GameEngine;
 
@@ -8,7 +8,7 @@ public abstract class CardReaction<T, TGame, TAction> : Reaction<T, TGame, TActi
     where TGame : IGame<T>
     where TAction : IAction<T>
 {
-    [JsonProperty]
+    
     protected ICard parentCard = null!;
 
     protected CardReaction() { }
@@ -18,7 +18,7 @@ public abstract class CardReaction<T, TGame, TAction> : Reaction<T, TGame, TActi
         this.parentCard = parentCard;
     }
 
-    [JsonIgnore]
+    
     public ICard ParentCard
     {
         get

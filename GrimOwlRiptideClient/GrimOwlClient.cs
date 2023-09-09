@@ -64,7 +64,7 @@ public class GrimOwlClient
         clientThread?.Join();
     }
 
-    [MessageHandler((ushort)MConnection.ServerHello)]
+    [MessageHandler((ushort)MServer.ServerHello)]
     private static void GameState(Message message)
     {
         Console.WriteLine("Message received");

@@ -1,5 +1,5 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 using System;
 using System.ComponentModel;
 
@@ -7,7 +7,7 @@ namespace GrimOwlGameEngine;
 
 public class GrimOwlCreatureCard : GrimOwlPermanentCard
 {
-    [JsonProperty]
+    
     protected bool isReadyToAttack;
 
     protected GrimOwlCreatureCard()
@@ -30,14 +30,14 @@ public class GrimOwlCreatureCard : GrimOwlPermanentCard
 
     }
 
-    [JsonIgnore]
+    
     public bool IsReadyToAttack
     {
         get => isReadyToAttack;
         set => isReadyToAttack = value;
     }
 
-    [JsonIgnore]
+    
     public List<string> Movements
     {
         get

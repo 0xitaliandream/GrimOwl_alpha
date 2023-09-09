@@ -1,14 +1,14 @@
 ﻿using System.Collections.Immutable;
-using Newtonsoft.Json;
+
 
 namespace GameEngine;
 
 public class CardComponent : StatContainer, ICardComponent
 {
-    [JsonProperty]
+    
     protected List<IReaction> reactions = null!;
 
-    [JsonProperty]
+    
     protected ICard? parentCard;
 
     protected CardComponent() { }
@@ -18,13 +18,13 @@ public class CardComponent : StatContainer, ICardComponent
         this.reactions = new List<IReaction>();
     }
 
-    [JsonIgnore]
+    
     public IEnumerable<IReaction> Reactions
     {
         get => reactions.ToImmutableList();
     }
 
-    [JsonIgnore]
+    
     public ICard? ParentCard
     {
         get

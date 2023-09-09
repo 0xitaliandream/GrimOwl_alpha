@@ -15,4 +15,8 @@
     <ProjectReference Include="..\GameEngine\GameEngine.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="EventHook\" />
+  </ItemGroup>
+
 </Project>

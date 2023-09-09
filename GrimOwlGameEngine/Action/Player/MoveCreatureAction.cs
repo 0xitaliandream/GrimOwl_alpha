@@ -1,20 +1,20 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class MoveCreatureAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected GrimOwlPlayer player = null!;
 
-    [JsonProperty]
+    
     protected GrimOwlCreatureCard creatureCard = null!;
 
-    [JsonProperty]
+    
     protected int x2 = -1;
 
-    [JsonProperty]
+    
     protected int y2 = -1;
 
     protected MoveCreatureAction() { }
@@ -29,25 +29,25 @@ public class MoveCreatureAction : GameEngine.Action<GrimOwlGameState>
 
     }
 
-    [JsonIgnore]
+    
     public GrimOwlPlayer Player
     {
         get => player;
     }
 
-    [JsonIgnore]
+    
     public GrimOwlCreatureCard CreatureCard
     {
         get => creatureCard;
     }
 
-    [JsonIgnore]
+    
     public int X2
     {
         get => x2;
     }
 
-    [JsonIgnore]
+    
     public int Y2
     {
         get => y2;

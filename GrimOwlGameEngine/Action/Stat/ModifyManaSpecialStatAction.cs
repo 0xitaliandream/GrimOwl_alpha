@@ -1,17 +1,17 @@
-﻿using Newtonsoft.Json;
+﻿
 using GameEngine;
 
 namespace GrimOwlGameEngine;
 
 public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected IStatContainer manaful = null!;
 
-    [JsonProperty]
+    
     protected int deltaValue;
 
-    [JsonProperty]
+    
     protected int deltaBaseValue;
 
     protected ModifyManaSpecialStatAction() { }
@@ -28,20 +28,20 @@ public class ModifyManaSpecialStatAction : GameEngine.Action<GrimOwlGameState>
         this.deltaBaseValue = deltaBaseValue;
     }
 
-    [JsonIgnore]
+    
     public IStatContainer Manaful
     {
         get => manaful;
     }
 
-    [JsonIgnore]
+    
     public int DeltaValue
     {
         get => deltaValue;
         set => deltaValue = value;
     }
 
-    [JsonIgnore]
+    
     public int DeltaBaseValue
     {
         get => deltaBaseValue;

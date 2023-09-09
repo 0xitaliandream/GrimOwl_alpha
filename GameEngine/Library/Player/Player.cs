@@ -1,14 +1,14 @@
 ﻿using System.Collections.Immutable;
-using Newtonsoft.Json;
+
 
 namespace GameEngine;
 
 public class Player : StatContainer, IPlayer
 {
-    [JsonProperty]
+    
     protected List<IReaction> reactions = null!;
 
-    [JsonProperty]
+    
     protected IDictionary<string, ICardCollection> cardCollections = null!;
 
     protected Player() { }
@@ -22,7 +22,7 @@ public class Player : StatContainer, IPlayer
         reactions = new List<IReaction>();
     }
 
-    [JsonIgnore]
+    
     public IEnumerable<ICard> AllCards
     {
         get
@@ -36,7 +36,7 @@ public class Player : StatContainer, IPlayer
         }
     }
 
-    [JsonIgnore]
+    
     public IEnumerable<IReaction> Reactions
     {
         get => reactions.ToImmutableList();

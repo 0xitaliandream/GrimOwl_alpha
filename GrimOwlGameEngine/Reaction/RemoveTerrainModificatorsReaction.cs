@@ -1,5 +1,5 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,7 +11,7 @@ namespace GrimOwlGameEngine;
 
 public class RemoveTerrainModificatorsReaction : CardReaction<GrimOwlGameState, GrimOwlGame, RemoveCardFromTerrainAction>
 {
-    [JsonProperty]
+    
     protected IStatContainer statContainer;
 
     public RemoveTerrainModificatorsReaction(GrimOwlCreatureCard parentCard, IStatContainer statContainer) : base(parentCard)

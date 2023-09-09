@@ -1,14 +1,14 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class GrimOwlPermanentCard : GrimOwlCard
 {
 
-    [JsonProperty]
+    
     protected int x = -1;
-    [JsonProperty]
+    
     protected int y = -1;
 
     protected GrimOwlPermanentCard()
@@ -20,7 +20,7 @@ public class GrimOwlPermanentCard : GrimOwlCard
         
     }
 
-    [JsonIgnore]
+    
     public int X
     {
         get
@@ -33,7 +33,7 @@ public class GrimOwlPermanentCard : GrimOwlCard
         }
     }
 
-    [JsonIgnore]
+    
     public int Y
     {
         get

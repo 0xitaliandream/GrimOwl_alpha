@@ -1,18 +1,18 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class GrimOwlGrid
 {
 
-    [JsonProperty]
+    
     protected int columns;
 
-    [JsonProperty]
+    
     protected int rows;
 
-    [JsonProperty]
+    
     protected GrimOwlTerrain?[,] terrains = null!;
 
     public GrimOwlGrid(int columns, int rows)
@@ -31,16 +31,16 @@ public class GrimOwlGrid
 
     }
 
-    [JsonIgnore]
+    
     public int Columns => columns;
 
-    [JsonIgnore] 
+     
     public int Rows => rows;
 
-    [JsonIgnore]
+    
     public GrimOwlTerrain?[,] Terrains => terrains;
 
-    [JsonIgnore]
+    
     public GrimOwlTerrain? this[int column, int row]
     {
         get => terrains[column, row];

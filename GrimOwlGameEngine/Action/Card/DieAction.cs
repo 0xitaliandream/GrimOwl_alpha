@@ -1,11 +1,11 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class DieAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected GrimOwlCreatureCard creatureCard = null!;
 
     protected DieAction() { }
@@ -16,7 +16,7 @@ public class DieAction : GameEngine.Action<GrimOwlGameState>
         this.creatureCard = creatureCard;
     }
 
-    [JsonIgnore]
+    
     public GrimOwlCreatureCard CreatureCard
     {
         get => creatureCard;

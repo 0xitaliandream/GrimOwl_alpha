@@ -1,14 +1,14 @@
 ﻿
-using Newtonsoft.Json;
+
 
 namespace GameEngine;
 
 public class RemoveCardFromCardCollectionAction : Action
 {
-    [JsonProperty]
+    
     protected ICardCollection cardCollection = null!;
 
-    [JsonProperty]
+    
     protected ICard card = null!;
 
     protected RemoveCardFromCardCollectionAction() { }
@@ -20,13 +20,13 @@ public class RemoveCardFromCardCollectionAction : Action
         this.card = card;
     }
 
-    [JsonIgnore]
+    
     public ICardCollection CardCollection
     {
         get => cardCollection;
     }
 
-    [JsonIgnore]
+    
     public ICard Card
     {
         get => card;

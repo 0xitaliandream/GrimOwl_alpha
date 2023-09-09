@@ -1,5 +1,5 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -24,7 +24,7 @@ public class GrimOwlTerrain : StatContainer
         AddStat(nature, new Stat(1, 1));
     }
 
-    [JsonIgnore]
+    
     public string Nature
     {
         get

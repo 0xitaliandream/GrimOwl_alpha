@@ -1,15 +1,15 @@
 ﻿
 using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class RemoveCardFromTerrainAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected GrimOwlGrid grid = null!;
 
-    [JsonProperty]
+    
     protected GrimOwlPermanentCard card = null!;
 
     protected RemoveCardFromTerrainAction() { }
@@ -22,13 +22,13 @@ public class RemoveCardFromTerrainAction : GameEngine.Action<GrimOwlGameState>
     }
 
 
-    [JsonIgnore]
+    
     public GrimOwlGrid Grid
     {
         get => grid;
     }
 
-    [JsonIgnore]
+    
     public GrimOwlPermanentCard Card
     {
         get => card;

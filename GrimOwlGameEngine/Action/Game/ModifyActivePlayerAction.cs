@@ -1,11 +1,11 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class ModifyActivePlayerAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected GrimOwlPlayer newActivePlayer = null!;
 
     protected ModifyActivePlayerAction() { }
@@ -16,7 +16,7 @@ public class ModifyActivePlayerAction : GameEngine.Action<GrimOwlGameState>
         this.newActivePlayer = newActivePlayer;
     }
 
-    [JsonIgnore]
+    
     public GrimOwlPlayer NewActivePlayer
     {
         get => newActivePlayer;

@@ -1,11 +1,11 @@
 ﻿using GameEngine;
-using Newtonsoft.Json;
+
 
 namespace GrimOwlGameEngine;
 
 public class RestoreEnergyAction : GameEngine.Action<GrimOwlGameState>
 {
-    [JsonProperty]
+    
     protected IPlayer player = null!;
 
     protected RestoreEnergyAction() { }
@@ -16,7 +16,7 @@ public class RestoreEnergyAction : GameEngine.Action<GrimOwlGameState>
         this.player = player;
     }
 
-    [JsonIgnore]
+    
     public IPlayer Player
     {
         get => player;

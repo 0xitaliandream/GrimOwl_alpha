@@ -6,28 +6,15 @@ using System.Threading.Tasks;
 
 namespace GrimOwlRiptideServer;
 
-
-
-public enum MConnection : ushort
+public enum MServer : ushort
 {
     ServerHello = 1,
-}
-
-public enum MNotificator : ushort
-{
-    GameState = 100,
+    CommandError,
+    GameUpdate,
     GameStarted,
 }
 
 public enum MClient : ushort
 {
     ClientCommand = 200,
-}
-
-public enum MCommand : ushort
-{
-    Summon = 1000,
-    EndsTurn,
-    Move,
-    Attack,
 }

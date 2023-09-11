@@ -1,7 +1,6 @@
 ﻿using GameEngine;
 using GrimOwlGameEngine;
 
-
 namespace GrimOwlConsoleClient;
 
 public static class ConsoleUtil

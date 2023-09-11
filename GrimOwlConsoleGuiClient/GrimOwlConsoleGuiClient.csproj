@@ -8,12 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Terminal.Gui" Version="1.14.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\GrimOwlGameEngine\GrimOwlGameEngine.csproj" />
-    <ProjectReference Include="..\GrimOwlRiptideClient\GrimOwlRiptideClient.csproj" />
   </ItemGroup>
 
 </Project>

@@ -1,5 +1,4 @@
-﻿using ProtoBuf;
-using System;
+﻿using GameEngine;
 
 namespace GrimOwlGameEngine;
 
@@ -7,12 +6,16 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        GrimOwlGame game = TestScenarios.TestScenario2();
+        GrimOwlGame game = TestScenarios.TestScenario3();
 
-        byte[] serializedBytes = ProtoSerializer.SerializeProtoUpdateGrimOwlGameState(game);
+        string serializedGame = JsonSerializer.ToJson(game);
+        Console.WriteLine(serializedGame);
 
-        ProtoUpdateGrimOwlGame deserializedGame = ProtoSerializer.DeserializeProtoUpdateGrimOwlGameState(serializedBytes);
+        Console.WriteLine(System.Text.ASCIIEncoding.Unicode.GetByteCount(serializedGame));
 
-        Console.WriteLine(deserializedGame.test);
+
+        GrimOwlGame? game2 = JsonSerializer.FromJson<GrimOwlGame>(serializedGame);
+
+        Console.WriteLine(game2!.isGameStarted);
     }
 }

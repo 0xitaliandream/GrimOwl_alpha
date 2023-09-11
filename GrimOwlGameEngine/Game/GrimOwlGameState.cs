@@ -1,16 +1,16 @@
 ﻿using System.Collections.Immutable;
 using GameEngine;
-
+using Newtonsoft.Json;
 
 namespace GrimOwlGameEngine;
 
 
 public class GrimOwlGameState : GameState
 {
-    
+    [JsonProperty]
     protected int activePlayerIndex;
 
-    
+    [JsonIgnore]
     protected GrimOwlGrid grid = null!;
     
     protected GrimOwlGameState()
@@ -22,7 +22,7 @@ public class GrimOwlGameState : GameState
         this.activePlayerIndex = 0;
     }
 
-    
+    [JsonProperty]
     public GrimOwlPlayer ActivePlayer
     {
         get => (GrimOwlPlayer)Players.ElementAt(activePlayerIndex);
@@ -32,7 +32,7 @@ public class GrimOwlGameState : GameState
         }
     }
 
-    
+    [JsonIgnore]
     public GrimOwlGrid Grid
     {
         get
@@ -45,7 +45,7 @@ public class GrimOwlGameState : GameState
         }
     }
 
-    
+    [JsonIgnore]
     public IEnumerable<IPlayer> NonActivePlayers
     {
         get

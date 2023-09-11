@@ -1,5 +1,9 @@
 ﻿using GrimOwlGameEngine;
 using Riptide;
+using GrimOwlCommon;
+using ProtoBuf;
+using System.Diagnostics;
+using GameEngine;
 
 namespace GrimOwlRiptideClient;
 
@@ -7,14 +11,14 @@ public class GrimOwlClient
 {
     public static GrimOwlClient Instance { get; private set; } = null!;
 
-    internal Client? client;
-    internal Thread? clientThread;
+    public Client client = null!;
+    internal Thread clientThread = null!;
     internal bool isRunning = true;
 
     internal string playerJwtAuthToken = null!;
     internal int serverIdToken;
 
-    public event Action<string> OnNewGameUpdate = delegate { };
+    public event System.Action<GrimOwlGame> OnNewGameUpdate = delegate { };
 
     public GrimOwlClient(string playerJwtAuthTokenInit, int serverIdTokenInit)
     {
@@ -64,13 +68,54 @@ public class GrimOwlClient
         clientThread?.Join();
     }
 
-    [MessageHandler((ushort)MServer.ServerHello)]
+    [MessageHandler((ushort)MServer.GameUpdate)]
     private static void GameState(Message message)
     {
         Console.WriteLine("Message received");
 
-        string test = message.GetString();
+        string body = message.GetString();
 
-        Instance.OnNewGameUpdate?.Invoke(test);
+        Console.WriteLine(body);
+
+        GrimOwlGame game2 = JsonSerializer.FromJson<GrimOwlGame>(body)!;
+
+        Instance.OnNewGameUpdate?.Invoke(game2);
+    }
+
+    public static Message GenerateMessage(object[] messages, ushort messageKey)
+    {
+        Message msg_temp = Message.Create(MessageSendMode.Reliable, messageKey);
+        foreach (object msg in messages)
+        {
+            if (msg is int intValue)
+            {
+                msg_temp.AddInt(intValue);
+            }
+            else if (msg is ushort ushortValue)
+            {
+                msg_temp.AddUShort(ushortValue);
+            }
+            else if (msg is string strValue)
+            {
+                msg_temp.AddString(strValue);
+            }
+            else if (msg is byte[])
+            {
+                msg_temp.AddBytes((byte[])msg);
+            }
+        }
+        return msg_temp;
+    }
+
+    public void SendMessageToServer(Message message)
+    {
+        client.Send(message);
+    }
+
+    public void OnNewCommand(string command)
+    {
+        Message message = GenerateMessage(new object[] { command }, (ushort)MClient.ClientCommand);
+
+        SendMessageToServer(message);
     }
 }

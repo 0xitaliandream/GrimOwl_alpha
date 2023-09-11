@@ -1,18 +1,21 @@
 ﻿
 
-using ProtoBuf;
+using Newtonsoft.Json;
 
 namespace GameEngine;
 
 public class Game<T> : IGame<T> where T : IGameState
 {
-    
+    [JsonProperty]
     protected T state = default(T)!;
 
-    
+    [JsonProperty]
     protected bool isGameOver = false;
 
-    
+    [JsonProperty]
+    protected List<IAction> actionChain = new List<IAction>();
+
+    [JsonIgnore]
     protected bool executeReactions { get; set; }
 
     protected Game()
@@ -26,19 +29,18 @@ public class Game<T> : IGame<T> where T : IGameState
         this.isGameOver = isGameOver;
     }
 
-    
+    [JsonIgnore]
     public T State
     {
         get => state;
     }
 
-    
+    [JsonIgnore]
     IGameState IGame.State
     {
         get => state;
     }
 
-    
     public List<IAction> Execute(IAction action, bool withReactions = true)
     {
         return ExecuteSimultaneously(new List<IAction> { action }, withReactions);
@@ -49,6 +51,13 @@ public class Game<T> : IGame<T> where T : IGameState
         executeReactions = withReactions;
         List<IAction> executedActions = Execute(actions);
         executeReactions = true;
+
+
+        foreach (IAction action in executedActions)
+        {
+            actionChain.Add(action);
+        }
+
         return executedActions;
     }
 

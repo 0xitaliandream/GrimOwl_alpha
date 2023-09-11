@@ -31,6 +31,12 @@ public class GrimOwlPlayerCommandController
                 return status;
             }
 
+            if (game.isGameStarted == false)
+            {
+                status = false;
+                return status;
+            }
+
             string[] inputParams = input.Split(' ');
             switch (inputParams[0].ToUpper())
             {

@@ -1,14 +1,15 @@
-﻿using System.Collections.Immutable;
+﻿using Newtonsoft.Json;
+using System.Collections.Immutable;
 
 
 namespace GameEngine;
 
 public class GameState : IGameState
 {
-    
+    [JsonIgnore]
     protected List<IReaction> reactions = null!;
 
-    
+    [JsonProperty]
     protected List<IPlayer> players = null!;
 
     protected GameState()
@@ -25,19 +26,19 @@ public class GameState : IGameState
         this.reactions = new List<IReaction>();
     }
 
-    
+    [JsonIgnore]
     public IEnumerable<IReaction> Reactions
     {
         get => reactions.ToImmutableList();
     }
 
-    
+    [JsonIgnore]
     public IEnumerable<IPlayer> Players
     {
         get => players.ToImmutableList();
     }
 
-    
+    [JsonIgnore]
     public IEnumerable<ICard> Cards
     {
         get

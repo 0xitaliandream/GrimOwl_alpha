@@ -1,14 +1,19 @@
 ﻿
 
 using GameEngine;
-using ProtoBuf;
+using Newtonsoft.Json;
 
 namespace GrimOwlGameEngine;
 
 public class GrimOwlGame : Game<GrimOwlGameState>
 {
+    [JsonProperty]
+    public bool isGameStarted = false;
 
-    public int test { get; set; } = 3;
+    [JsonProperty]
+    private bool isExecuting = false;
+
+    public event System.Action OnNewGameState = delegate { };
 
 
     protected GrimOwlGame()
@@ -19,8 +24,33 @@ public class GrimOwlGame : Game<GrimOwlGameState>
     {
     }
 
+    public List<IAction> ExecuteRootAction(IAction action, bool withReactions = true)
+    {
+        if (isExecuting)
+        {
+            throw new InvalidOperationException("Another Execute operation is already in progress.");
+        }
+
+        isExecuting = true;
+
+        List<IAction> executed = ExecuteSimultaneously(new List<IAction> { action }, withReactions);
+
+        isExecuting = false;
+
+        OnNewGameState?.Invoke();
+
+        actionChain.Clear();
+
+        return executed;
+    }
+
     public void NextTurn()
     {
-        Execute(new NextTurnAction());
+        ExecuteRootAction(new NextTurnAction());
+    }
+
+    public void StartGame()
+    {
+        ExecuteRootAction(new StartGameAction());
     }
 }

@@ -1,19 +1,21 @@
 ﻿
 
+using Newtonsoft.Json;
+
 namespace GameEngine;
 
 public class Stat : IStat
 {
-    
+    [JsonProperty]
     protected int value;
 
-    
+    [JsonProperty]
     protected int baseValue;
 
-    
+    [JsonIgnore]
     protected int minValue;
 
-    
+    [JsonIgnore]
     protected int maxValue;
 
     protected Stat() { }
@@ -33,28 +35,28 @@ public class Stat : IStat
         this.maxValue = maxValue;
     }
 
-    
+    [JsonIgnore]
     public virtual int Value
     {
         get => value;
         set => this.value = Math.Max(minValue, Math.Min(maxValue, value));
     }
 
-    
+    [JsonIgnore]
     public virtual int BaseValue
     {
         get => baseValue;
         set => baseValue = Math.Max(minValue, Math.Min(maxValue, value));
     }
 
-    
+    [JsonIgnore]
     public virtual int MinValue
     {
         get => minValue;
         set => this.minValue = value;
     }
 
-    
+    [JsonIgnore]
     public virtual int MaxValue
     {
         get => maxValue;

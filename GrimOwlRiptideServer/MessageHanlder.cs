@@ -1,11 +1,29 @@
+using GameEngine;
 using GrimOwlGameEngine;
 using Riptide;
 using System.Diagnostics;
+using GrimOwlCommon;
+
 
 namespace GrimOwlRiptideServer;
 
 public static class MessageSenderHandler
 {
+
+
+    public static void SendGameUpdate()
+    {
+        Console.WriteLine("SendGameUpdate");
+
+        Dictionary<GrimOwlPlayer, string> playerToBytes = JsonSerializer.SerializeGame(GrimOwlServer.game);
+        
+        foreach (KeyValuePair<GrimOwlPlayer, string> playerToByte in playerToBytes)
+        {
+            Message message = GenerateMessage(new object[] { playerToByte.Value }, (ushort)MServer.GameUpdate);
+            SendMessageToPlayer(playerToByte.Key, message);
+        }
+    }
+
 
     public static void SendMessageToConnection(Connection connection, Message message)
     {
@@ -61,6 +79,10 @@ public static class MessageSenderHandler
             {
                 msg_temp.AddString(strValue);
             }
+            else if (msg is byte[])
+            {
+                msg_temp.AddBytes((byte[])msg);
+            }
         }
         return msg_temp;
     }
@@ -114,15 +136,6 @@ public static class MessageReceiverHandler
             MessageSenderHandler.SendMessageToPlayer(player, messageTemp);
 
             return;
-        }
-
-
-        // send message to all players
-        foreach (KeyValuePair<int, GrimOwlPlayer> playerPair in ConnectionHandler.connectionsToGrimOwlPlayer)
-        {
-            GrimOwlPlayer playerTemp = playerPair.Value;
-            Message messageTemp = MessageSenderHandler.GenerateMessage(new object[] { "GameUpdate" }, (ushort)MServer.GameUpdate);
-            MessageSenderHandler.SendMessageToPlayer(playerTemp, messageTemp);
         }
 
     }

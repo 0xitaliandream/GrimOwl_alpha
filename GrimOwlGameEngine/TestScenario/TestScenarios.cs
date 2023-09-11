@@ -1,4 +1,5 @@
 ﻿using GameEngine;
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -132,6 +133,8 @@ public static class TestScenarios
 
         GrimOwlGame game = new GrimOwlGame(gameState);
 
+        game.StartGame();
+
         foreach (GrimOwlPlayer player in gameState.Players)
         {
             for (int i = 0; i < 3; ++i)
@@ -154,6 +157,27 @@ public static class TestScenarios
 
         activePlayer = game.State.ActivePlayer;
         game.State.ActivePlayer.SummonCreature(game, (GrimOwlCreatureCard)activePlayer.GetCardCollection(CardCollectionKeys.Hand).First, 2, 0);
+
+        return game;
+    }
+
+
+    public static GrimOwlGame TestScenario4()
+    {
+        GrimOwlGameState gameState = new GrimOwlGameState();
+        for (int i = 0; i < 2; ++i)
+        {
+            IPlayer player = new GrimOwlPlayer();
+            gameState.AddPlayer(player);
+        }
+
+        GrimOwlGrid grimOwlGrid = new GrimOwlGrid(5, 1);
+
+        gameState.AddGrid(grimOwlGrid);
+
+        GrimOwlGame game = new GrimOwlGame(gameState);
+
+        game.StartGame();
 
         return game;
     }

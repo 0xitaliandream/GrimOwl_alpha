@@ -1,11 +1,12 @@
 ﻿
+using Newtonsoft.Json;
 using System.Collections.Immutable;
 
 namespace GameEngine;
 
 public abstract class ReactiveCompound : Compound, IReactive
 {
-    
+    [JsonIgnore]
     protected List<IReaction> reactions = null!;
 
     protected ReactiveCompound() { }
@@ -15,7 +16,7 @@ public abstract class ReactiveCompound : Compound, IReactive
         this.reactions = new List<IReaction>();
     }
 
-    
+    [JsonIgnore]
     public IEnumerable<IReaction> Reactions
     {
         get => reactions.ToImmutableList();

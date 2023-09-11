@@ -1,13 +1,15 @@
 ﻿
 
+using Newtonsoft.Json;
+
 namespace GameEngine;
 
 public abstract class Card : ReactiveCompound, ICard
 {
-    
+    [JsonProperty]
     protected IPlayer? owner;
 
-    
+    [JsonProperty]
     protected int uniqueId;
 
     protected Card() { }
@@ -18,7 +20,7 @@ public abstract class Card : ReactiveCompound, ICard
         uniqueId = Guid.NewGuid().GetHashCode();
     }
 
-    
+    [JsonIgnore]
     public IPlayer? Owner
     {
         get
@@ -31,7 +33,7 @@ public abstract class Card : ReactiveCompound, ICard
         }
     }
 
-    
+    [JsonIgnore]
     public int UniqueId
     {
         get

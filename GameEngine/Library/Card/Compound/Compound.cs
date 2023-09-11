@@ -1,11 +1,12 @@
 ﻿
+using Newtonsoft.Json;
 using System.Collections.Immutable;
 
 namespace GameEngine;
 
 public abstract class Compound : StatContainer, ICompound
 {
-    
+    [JsonProperty]
     protected List<ICardComponent> components = null!;
 
     protected Compound() { }
@@ -15,7 +16,7 @@ public abstract class Compound : StatContainer, ICompound
         this.components = new List<ICardComponent>();
     }
 
-    
+    [JsonIgnore]
     public IEnumerable<ICardComponent> Components
     {
         get => components.ToImmutableList();

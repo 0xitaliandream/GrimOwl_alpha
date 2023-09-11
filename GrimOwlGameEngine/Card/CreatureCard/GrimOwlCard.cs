@@ -1,5 +1,5 @@
 ﻿using GameEngine;
-
+using Newtonsoft.Json;
 using System;
 
 namespace GrimOwlGameEngine;
@@ -18,7 +18,7 @@ public class GrimOwlCard : Card
         AddComponent(new GrimOwlNaturesCardComponent(natures));
     }
 
-    
+    [JsonProperty]
     public List<string> Natures
     {
         get

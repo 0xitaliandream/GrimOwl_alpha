@@ -40,6 +40,8 @@ public static class GrimOwlServer
         isServerRunning = true;
         serverThread = new Thread(new ThreadStart(Tick));
         serverThread.Start();
+
+        game.OnNewGameState += MessageSenderHandler.SendGameUpdate;
     }
 
     private static void Tick()

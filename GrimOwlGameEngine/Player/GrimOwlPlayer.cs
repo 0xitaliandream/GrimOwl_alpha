@@ -1,15 +1,20 @@
 ﻿using GameEngine;
 
+using Newtonsoft.Json;
+
 namespace GrimOwlGameEngine;
 
 public class GrimOwlPlayer : Player
 {
     protected GrimOwlPlayer() { }
 
+    [JsonProperty]
     public int relativeTurn;
 
+    [JsonIgnore]
     public GrimOwlKingCard king = null!;
 
+    [JsonIgnore]
     private GrimOwlPlayerCommandController commandController = null!;
 
     public GrimOwlPlayer(bool _ = true) : base(_)
@@ -32,6 +37,7 @@ public class GrimOwlPlayer : Player
         King = king;
     }
 
+    [JsonIgnore]
     public GrimOwlKingCard King
     {
         get
@@ -44,6 +50,7 @@ public class GrimOwlPlayer : Player
         }
     }
 
+    [JsonIgnore]
     public GrimOwlPlayerCommandController CommandController
     {
         get
@@ -59,7 +66,7 @@ public class GrimOwlPlayer : Player
 
     public void DrawCard(GrimOwlGame game)
     {
-        game.Execute(new DrawCardAction(this));
+        game.ExecuteRootAction(new DrawCardAction(this));
     }
 
     public void SummonCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
@@ -70,21 +77,21 @@ public class GrimOwlPlayer : Player
                 "not playable!");
         }
 
-        game.Execute(new SummonCreatureAction(this, creatureCard, x, y));
+        game.ExecuteRootAction(new SummonCreatureAction(this, creatureCard, x, y));
     }
 
     public void SpawnCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
     {
-        game.Execute(new SpawnCreatureAction(this, creatureCard, x, y));
+        game.ExecuteRootAction(new SpawnCreatureAction(this, creatureCard, x, y));
     }
 
     public void AttackCreature(GrimOwlGame game, GrimOwlCreatureCard attacker, GrimOwlCreatureCard defender)
     {
-        game.Execute(new AttackCreatureAction(attacker, defender));
+        game.ExecuteRootAction(new AttackCreatureAction(attacker, defender));
     }
 
     public void MoveCreature(GrimOwlGame game, GrimOwlCreatureCard creatureCard, int x, int y)
     {
-        game.Execute(new MoveCreatureAction(this, creatureCard, x, y));
+        game.ExecuteRootAction(new MoveCreatureAction(this, creatureCard, x, y));
     }
 }

@@ -8,10 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="RiptideNetworking.Riptide" Version="2.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GrimOwlCommon\GrimOwlCommon.csproj" />
     <ProjectReference Include="..\GrimOwlGameEngine\GrimOwlGameEngine.csproj" />
   </ItemGroup>
 

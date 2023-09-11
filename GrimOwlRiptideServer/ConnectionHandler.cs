@@ -1,7 +1,7 @@
 using GameEngine;
 using GrimOwlGameEngine;
 using Riptide;
-
+using GrimOwlCommon;
 namespace GrimOwlRiptideServer;
 
 public static class ConnectionHandler
@@ -145,6 +145,12 @@ public static class ConnectionHandler
         RetrieveDeckFromDatabase(playerId, player);
 
         GrimOwlServer.game.State.AddPlayer(player);
+
+        if (GrimOwlServer.game.State.Players.Count() == GrimOwlServer.numberOfPlayer)
+        {
+            Console.WriteLine("All players connected, starting game");
+            GrimOwlServer.game.StartGame();
+        }
 
     }
 

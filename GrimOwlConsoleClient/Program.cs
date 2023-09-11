@@ -10,17 +10,20 @@ class MainClass
 
     public static void Main(string[] args)
     {
-        GrimOwlGame game = TestScenarios.TestScenario3();
+        GrimOwlGame game = TestScenarios.TestScenario4();
 
-        bool status = false;
+        bool status = true;
         string input;
         do
         {
             GrimOwlPlayer activePlayer = game.State.ActivePlayer;
-            Console.Clear();
-            Console.WriteLine(status + "\n");
-            ConsoleUtil.PrintGame(game.State);
-            Console.WriteLine(GetOptions());
+            if (status)
+            {
+                Console.Clear();
+                Console.WriteLine(status + "\n");
+                ConsoleUtil.PrintGame(game.State);
+                Console.WriteLine(GetOptions());
+            }
             input = Console.ReadLine() ?? "";
             status = activePlayer.CommandController.HandleCommand(game, input);
         } while (input.ToUpper() != GrimOwlPlayerCommandController.CommandQuit);

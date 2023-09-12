@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GrimOwlGameClient\GrimOwlGameClient.csproj" />
     <ProjectReference Include="..\GrimOwlGameEngine\GrimOwlGameEngine.csproj" />
   </ItemGroup>
 

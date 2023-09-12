@@ -17,9 +17,17 @@ public static class JsonSerializer
         return JsonConvert.SerializeObject(obj, Formatting.Indented, serializaterSettings);
     }
 
-    public static T? FromJson<T>(string json)
+    public static T? FromJson<T>(string json) where T : class
     {
-        return JsonConvert.DeserializeObject<T>(json, serializaterSettings);
+        try
+        {
+            return JsonConvert.DeserializeObject<T>(json, serializaterSettings);
+        }
+        catch (JsonException)
+        {
+            // Log dell'errore, se necessario
+            return null;
+        }
     }
 
     public static Dictionary<GrimOwlPlayer,string> SerializeGame(GrimOwlGame game)

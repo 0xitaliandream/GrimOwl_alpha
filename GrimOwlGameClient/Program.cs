@@ -1,19 +1,15 @@
-﻿using GrimOwlGameEngine;
-
-namespace GrimOwlRiptideServer;
-
+﻿
+namespace GrimOwlGameClient;
 class MainClass
 {
-    public static void Main(string[] args)
+    static void Main(string[] args)
     {
-        Console.WriteLine("GrimOwlServer");
 
         int arg1 = 1; // Valore predefinito per arg1
-        int arg2 = 2; // Valore predefinito per arg2
 
-        if (args.Length >= 2)
+        if (args.Length >= 1)
         {
-            if (int.TryParse(args[0], out arg1) && int.TryParse(args[1], out arg2))
+            if (int.TryParse(args[0], out arg1))
             {
                 // arg1 e arg2 sono stati correttamente impostati dai parametri della linea di comando
             }
@@ -27,6 +23,15 @@ class MainClass
             Console.WriteLine("Not enough arguments. Using default values 1 and 2.");
         }
 
-        GrimOwlServer.Run(arg1, arg2);
+
+        Client client = new Client("ws://127.0.0.1:8080/GameService", arg1);
+
+        client.ConnectAll();
+
+        // Tenere la console aperta.
+        Console.WriteLine("Premi un tasto per uscire...");
+        Console.ReadKey(true);
+
+        client.DisconnectAll();
     }
 }

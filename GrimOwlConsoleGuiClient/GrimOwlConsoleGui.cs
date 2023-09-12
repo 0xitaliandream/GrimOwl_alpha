@@ -1,4 +1,5 @@
 ﻿
+using GrimOwlGameClient;
 using GrimOwlGameEngine;
 using Terminal.Gui;
 
@@ -26,12 +27,14 @@ public class GrimOwlConsoleGui
     public GridView gridView = null!;
 
 
+    private GrimOwlGame localGame = null!;
+    private Client client = null!;
     private Thread mainThread = null!;
     private Thread updateThread = null!;
     private bool IsAppRunning;
     private bool IsUpdateRunning;
 
-    public GrimOwlConsoleGui()
+    public GrimOwlConsoleGui(int arg1)
     {
 
         GenerateGui();
@@ -41,6 +44,10 @@ public class GrimOwlConsoleGui
 
         this.updateThread = new Thread(new ThreadStart(this.Update));
         this.updateThread.Start();
+
+
+        client = new Client("ws://127.0.0.1:8080/GameService", arg1);
+        client.ConnectAll();
     }
 
     public void MainLoop()
@@ -201,6 +208,8 @@ public class GrimOwlConsoleGui
         this.IsUpdateRunning = false;
         this.updateThread.Join();
         Application.RequestStop();
+
+        client.DisconnectAll();
 
     }
 

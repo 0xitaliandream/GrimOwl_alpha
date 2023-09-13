@@ -23,14 +23,14 @@ public class GameInfoView : FrameView
         this.Add(this.listView);
     }
 
-    public void Update()
+    public void Update(GrimOwlPlayer player)
     {
         List<string> list = new List<string>
         {
-            $"Turn: {GrimOwlConsoleGui.currentGameState.Player.relativeTurn}",
-            $"Is Your Turn: {GrimOwlConsoleGui.currentGameState.Player == GrimOwlConsoleGui.currentGameState.GameInfo.State.ActivePlayer}",
-            $"Mana: {GrimOwlConsoleGui.currentGameState.Player.GetValue(StatKeys.Mana)} / {GrimOwlConsoleGui.currentGameState.Player.GetBaseValue(StatKeys.Mana)}",
-            $"Mana Special: {GrimOwlConsoleGui.currentGameState.Player.GetValue(StatKeys.ManaSpecial)} / {GrimOwlConsoleGui.currentGameState.Player.GetBaseValue(StatKeys.ManaSpecial)}"
+            $"Turn: {player.relativeTurn}",
+            $"Is Your Turn: {player == GrimOwlConsoleGui.currentGameState.GameInfo.State.ActivePlayer}",
+            $"Mana: {player.GetValue(StatKeys.Mana)} / {player.GetBaseValue(StatKeys.Mana)}",
+            $"Mana Special: {player.GetValue(StatKeys.ManaSpecial)} / {player.GetBaseValue(StatKeys.ManaSpecial)}"
         };
 
         this.listView.SetSource(list);

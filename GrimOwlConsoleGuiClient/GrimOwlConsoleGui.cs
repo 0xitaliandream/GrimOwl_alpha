@@ -255,6 +255,7 @@ public class GrimOwlConsoleGui
         }
     }
 
+
     public void OnNewGameState(GrimOwlGameUpdatePlayerContext game)
     {
         Console.WriteLine("New game state received");
@@ -262,7 +263,11 @@ public class GrimOwlConsoleGui
         currentGameState = null!;
         currentGameState = game;
 
-        myGameInfoView.Update();
+        myGameInfoView.Update(game.Player);
+        enemyGameInfoView.Update(game.EnemyPlayer);
+
+        myHandView.Update(game.Player.GetCardCollection(CardCollectionKeys.Hand));
+        enemyHandView.Update(game.EnemyPlayer.GetCardCollection(CardCollectionKeys.Hand));
     }
 
 }

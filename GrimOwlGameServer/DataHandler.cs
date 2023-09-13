@@ -14,7 +14,7 @@ public class DataHandler
 
     public Dictionary<string, int> sessionToToken = new Dictionary<string, int>();
     public Dictionary<int, GrimOwlPlayer> tokenToGrimOwlPlayer = new Dictionary<int, GrimOwlPlayer>();
-    public GrimOwlGame Game = TestScenarios.TestScenario4();
+    public GrimOwlGame Game = TestScenarios.TestScenario3();
 
     private DataHandler()
     {

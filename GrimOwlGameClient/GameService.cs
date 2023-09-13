@@ -14,6 +14,7 @@ namespace GrimOwlGameClient;
 public class GameService
 {
     private readonly WebSocket ws;
+    public event Action<GrimOwlGameUpdatePlayerContext> OnGrimOwlGameStateUpdate = delegate { };
 
     public GameService()
     {
@@ -57,11 +58,6 @@ public class GameService
         ws.Close();
     }
 
-    public void SendMessage(string message)
-    {
-        ws.Send(message);
-    }
-
 
     public void GameUpdateRequest()
     {
@@ -74,6 +70,19 @@ public class GameService
         string serializedGame = JsonSerializer.ToJson(message);
 
         ws.Send(serializedGame);
+    }
+
+    public void DeserializeGameState(string serializedGame)
+    {
+        GrimOwlGameUpdatePlayerContext? game = JsonSerializer.FromJson<GrimOwlGameUpdatePlayerContext>(serializedGame);
+
+        if (game == null)
+        {
+            Console.WriteLine($"Client sent invalid command");
+        }
+
+        OnGrimOwlGameStateUpdate.Invoke(game!);
+
     }
 
 
@@ -89,7 +98,7 @@ public class GameService
         switch (clientMessage!.Id)
         {
             case (int)MServer.GameStateUpdate:
-                Console.WriteLine($"Ricevuto aggiornamento stato di gioco");
+                DeserializeGameState(clientMessage.Payload);
                 break;
             default:
                 Console.WriteLine("Comando non riconosciuto");

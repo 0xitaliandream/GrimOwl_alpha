@@ -26,7 +26,7 @@ public class CardCollectionView : FrameView
         this.Add(this.listView);
     }
 
-    public void UpdateMyHandView()
+    public void Update()
     {
         
     }

@@ -12,7 +12,7 @@ public class Game<T> : IGame<T> where T : IGameState
     [JsonProperty]
     protected bool isGameOver = false;
 
-    [JsonProperty]
+    [JsonIgnore]
     protected List<IAction> actionChain = new List<IAction>();
 
     [JsonIgnore]

@@ -10,11 +10,10 @@ public class GrimOwlGame : Game<GrimOwlGameState>
     [JsonProperty]
     public bool isGameStarted = false;
 
-    [JsonProperty]
-    private bool isExecuting = false;
+    public event System.Action<List<IAction>> OnNewGameState = delegate { };
 
-    public event System.Action OnNewGameState = delegate { };
-
+    [JsonIgnore]
+    private Mutex mutex = new Mutex();
 
     protected GrimOwlGame()
     {
@@ -26,22 +25,23 @@ public class GrimOwlGame : Game<GrimOwlGameState>
 
     public List<IAction> ExecuteRootAction(IAction action, bool withReactions = true)
     {
-        if (isExecuting)
+
+        mutex.WaitOne();
+
+        try
         {
-            throw new InvalidOperationException("Another Execute operation is already in progress.");
+            actionChain.Clear();
+
+            List<IAction> executed = ExecuteSimultaneously(new List<IAction> { action }, withReactions);
+
+            OnNewGameState?.Invoke(actionChain);
+
+            return executed;
         }
-
-        isExecuting = true;
-
-        List<IAction> executed = ExecuteSimultaneously(new List<IAction> { action }, withReactions);
-
-        isExecuting = false;
-
-        OnNewGameState?.Invoke();
-
-        actionChain.Clear();
-
-        return executed;
+        finally
+        {
+            mutex.ReleaseMutex(); // Rilascia il mutex per permettere ad altri thread di entrare
+        }
     }
 
     public void NextTurn()

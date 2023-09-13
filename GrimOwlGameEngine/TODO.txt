@@ -1,11 +1,8 @@
-﻿fare hook di serialize e poi fare in modo che dal server possiamo usare gli scenari
-fare in modo che ogni volta che si esegue un action vengono registrate tutte le action e reaction che sono state eseguite
+﻿fare in modo che ogni volta che si esegue un action vengono registrate tutte le action e reaction che sono state eseguite
 da quella azione a cascata e viene triggherato un nuovo update di stato. dopo di che nel updategamestate 
 vengono riportate tutte le action e reaction che hanno portato a quel nuovo stato. il client quindi le metterà 
 in una coda e ad ogni action collegherà un evento come delle animazioni che verranno eseguite in sequenza.
 
-inoltre fare in modo che se un commando di un player è già arrivato al server e il player fa un altro commando
-questo viene messo in coda e viene eseguito solo quando il server ha finito di eseguire tutti i commandi precedenti
 
 fare in modo che commandplayer possa essere usato tramite hook
 

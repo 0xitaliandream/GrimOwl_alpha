@@ -14,28 +14,34 @@ public class GameService : AuthenticatedWebSocketBehavior
     public static Dictionary<int, GrimOwlPlayer> tokenToGrimOwlPlayer = new Dictionary<int, GrimOwlPlayer>();
     public GrimOwlGame game = null!;
 
-    public GrimOwlPlayer Player
+    public GrimOwlPlayer ContextPlayer
     {
         get
         {
-            return tokenToGrimOwlPlayer[Token];
+            return tokenToGrimOwlPlayer[ContextToken];
         }
+    }
+
+    public string GetPlayerSession(GrimOwlPlayer player)
+    {
+        int token = tokenToGrimOwlPlayer.FirstOrDefault(x => x.Value == player).Key;
+        return GetTokenSession(token);
     }
 
     public GameService()
     {
         game = TestScenarios.TestScenario4();
-        game.OnNewGameState += SendGameUpdate;
+        game.OnNewGameState += SendGameUpdateToPlayers;
     }
 
     protected override void OnMessage(MessageEventArgs e)
     {
-        if (!IsAuthenticated)
+        if (!ContextIsAuthenticated)
         {
-            Console.WriteLine($"Received message from {Token}: {e.Data}");
+            Console.WriteLine($"Received message from {ContextToken}: {e.Data}");
             return;
         }
-        Console.WriteLine($"Received message from {Token}: {e.Data}");
+        Console.WriteLine($"Received message from {ContextToken}: {e.Data}");
 
         HandleMessage(e.Data);
     }
@@ -44,9 +50,9 @@ public class GameService : AuthenticatedWebSocketBehavior
     {
         base.OnOpen();
 
-        if (IsAuthenticated)
+        if (ContextIsAuthenticated)
         {
-            tokenToGrimOwlPlayer[Token] = (GrimOwlPlayer)game.State.Players.ElementAt(Token);
+            tokenToGrimOwlPlayer[ContextToken] = (GrimOwlPlayer)game.State.Players.ElementAt(ContextToken);
 
         }
     }
@@ -56,9 +62,9 @@ public class GameService : AuthenticatedWebSocketBehavior
     {
         base.OnClose(e);
 
-        if (IsAuthenticated)
+        if (ContextIsAuthenticated)
         {
-            tokenToGrimOwlPlayer.Remove(Token);
+            tokenToGrimOwlPlayer.Remove(ContextToken);
         }
     }
 
@@ -70,20 +76,20 @@ public class GameService : AuthenticatedWebSocketBehavior
 
         if (playerCommand == null)
         {
-            Console.WriteLine($"Player {Player} sent invalid command");
+            Console.WriteLine($"Player {ContextPlayer} sent invalid command");
             Send("Command Error");
             return;
         }
 
-        if (playerCommand.Player != Player)
+        if (playerCommand.Player != ContextPlayer)
         {
-            Console.WriteLine($"Player {playerCommand.Player} is not {Player}");
+            Console.WriteLine($"Player {playerCommand.Player} is not {ContextPlayer}");
             return;
         }
 
 
 
-        bool newGameState = Player.CommandController.HandleCommand(game, "ok");
+        bool newGameState = ContextPlayer.CommandController.HandleCommand(game, "ok");
         if (!newGameState)
         {
             Console.WriteLine($"Command Error");
@@ -94,19 +100,34 @@ public class GameService : AuthenticatedWebSocketBehavior
         }
     }
 
-    public void SendGameUpdate()
+    public void SendGameUpdateToPlayers(List<IAction> actions)
     {
-        Console.WriteLine($"Sending game update to {Token}");
+        Console.WriteLine($"Sending game update to players");
+
+        foreach (KeyValuePair<int, GrimOwlPlayer> entry in tokenToGrimOwlPlayer)
+        {
+            SendGameUpdateToPlayer(entry.Value, actions);
+        }
+    }
+
+
+    public void SendGameUpdateToPlayer(GrimOwlPlayer player, List<IAction> actions)
+    {
+        Console.WriteLine($"Sending game update to {player}");
+
+        GrimOwlGameUpdatePlayerContext gameUpdatePlayerContext = BuildGameUpdateForPlayer(player, actions);
 
         NetworkMessage message = new NetworkMessage
         {
             Id = (int)MClient.GameStateUpdate,
-            Payload = JsonSerializer.ToJson(game)
-    };
+            Payload = JsonSerializer.ToJson(gameUpdatePlayerContext)
+        };
 
         string serializedMessage = JsonSerializer.ToJson(message);
 
-        Send(serializedMessage);
+        string session = GetPlayerSession(player);
+
+        Sessions.SendTo(serializedMessage, session);
     }
 
     public void HandleMessage(string message)
@@ -121,7 +142,7 @@ public class GameService : AuthenticatedWebSocketBehavior
         switch (clientMessage!.Id)
         {
             case (int)MClient.GameStateUpdate:
-                SendGameUpdate();
+                SendGameUpdateToPlayer(ContextPlayer, new List<IAction>());
                 break;
             case (int)MClient.PlayerCommand:
                 ProcessPlayerCommand(clientMessage);
@@ -131,6 +152,12 @@ public class GameService : AuthenticatedWebSocketBehavior
                 break;
         }
 
+    }
+
+
+    public GrimOwlGameUpdatePlayerContext BuildGameUpdateForPlayer(GrimOwlPlayer player, List<IAction> actions)
+    {
+        return new GrimOwlGameUpdatePlayerContext(game, player, actions);
     }
 
 

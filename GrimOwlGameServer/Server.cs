@@ -36,7 +36,7 @@ public class AuthenticatedWebSocketBehavior : WebSocketBehavior
 {
     public static Dictionary<string, int> sessionToToken = new Dictionary<string, int>();
 
-    public bool IsAuthenticated
+    public bool ContextIsAuthenticated
     {
         get
         {
@@ -44,12 +44,17 @@ public class AuthenticatedWebSocketBehavior : WebSocketBehavior
         }
     }
 
-    public int Token
+    public int ContextToken
     {
         get
         {
             return sessionToToken[this.ID];
         }
+    }
+
+    public string GetTokenSession(int token)
+    {
+        return sessionToToken.FirstOrDefault(x => x.Value == token).Key;
     }
 
     protected override void OnOpen()

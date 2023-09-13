@@ -26,8 +26,6 @@ public class GrimOwlConsoleGui
     public CommandLineView commandLineView = null!;
     public GridView gridView = null!;
 
-
-    private GrimOwlGame localGame = null!;
     private Client client = null!;
     private Thread mainThread = null!;
     private Thread updateThread = null!;
@@ -47,7 +45,13 @@ public class GrimOwlConsoleGui
 
 
         client = new Client("ws://127.0.0.1:8080/GameService", arg1);
+        client.GameService.OnGrimOwlGameStateUpdate += OnNewGameState;
         client.ConnectAll();
+    }
+
+    private void GameService_OnGrimOwlGameStateUpdate(GrimOwlGame obj)
+    {
+        throw new NotImplementedException();
     }
 
     public void MainLoop()
@@ -230,12 +234,24 @@ public class GrimOwlConsoleGui
 
             Application.MainLoop.Invoke(() =>
             {
+                gridView.SetNeedsDisplay();
+                myHandView.SetNeedsDisplay();
+                myRitualsView.SetNeedsDisplay();
+                myEnchantmentsView.SetNeedsDisplay();
+                myGraveyardView.SetNeedsDisplay();
+                myInfoView.SetNeedsDisplay();
+                commandLineView.SetNeedsDisplay();
+                enemyHandView.SetNeedsDisplay();
+                enemyRitualsView.SetNeedsDisplay();
+                enemyEnchantmentsView.SetNeedsDisplay();
+                enemyGraveyardView.SetNeedsDisplay();
+                enemyInfoView.SetNeedsDisplay();
             });
             Thread.Sleep(1000); // Aggiorna ogni 0.5 secondo
         }
     }
 
-    public void OnNewGameState(GrimOwlGame game)
+    public void OnNewGameState(GrimOwlGameUpdatePlayerContext game)
     {
         Console.WriteLine("New game state received");
     }

@@ -8,7 +8,7 @@ class MainClass
 {
     public static void Main(string[] args)
     {
-        int arg1 = 1; // Valore predefinito per arg1
+        int arg1 = 0; // Valore predefinito per arg1
 
         if (args.Length >= 1)
         {

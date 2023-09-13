@@ -171,7 +171,7 @@ public static class TestScenarios
             gameState.AddPlayer(player);
         }
 
-        GrimOwlGrid grimOwlGrid = new GrimOwlGrid(5, 1);
+        GrimOwlGrid grimOwlGrid = new GrimOwlGrid(1, 1);
 
         gameState.AddGrid(grimOwlGrid);
 

@@ -14,17 +14,20 @@ public class GrimOwlConsoleGui
     public CardCollectionView myRitualsView = null!;
     public CardCollectionView myEnchantmentsView = null!;
     public CardCollectionView myGraveyardView = null!;
-    public CardCollectionView myInfoView = null!;
+    public GameInfoView myGameInfoView = null!;
 
     public CardCollectionView enemyHandView = null!;
     public CardCollectionView enemyRitualsView = null!;
     public CardCollectionView enemyEnchantmentsView = null!;
     public CardCollectionView enemyGraveyardView = null!;
-    public CardCollectionView enemyInfoView = null!;
+    public GameInfoView enemyGameInfoView = null!;
 
 
     public CommandLineView commandLineView = null!;
     public GridView gridView = null!;
+
+
+    public static GrimOwlGameUpdatePlayerContext currentGameState = null!;
 
     private Client client = null!;
     private Thread mainThread = null!;
@@ -46,6 +49,7 @@ public class GrimOwlConsoleGui
 
         client = new Client("ws://127.0.0.1:8080/GameService", arg1);
         client.GameService.OnGrimOwlGameStateUpdate += OnNewGameState;
+        commandLineView.OnNewCommand += client.GameService.SendCommand;
         client.ConnectAll();
     }
 
@@ -134,7 +138,7 @@ public class GrimOwlConsoleGui
             Height = Dim.Percent(15)
         };
 
-        enemyInfoView = new CardCollectionView("Enemy Info")
+        enemyGameInfoView = new GameInfoView("Enemy Info")
         {
             X = Pos.Right(enemyGraveyardView),
             Y = 0,
@@ -145,7 +149,7 @@ public class GrimOwlConsoleGui
         gridView = new GridView("Grid")
         {
             X = 0,
-            Y = Pos.Bottom(enemyInfoView),
+            Y = Pos.Bottom(enemyGameInfoView),
             Width = Dim.Fill(),
             Height = Dim.Percent(58)
         };
@@ -182,7 +186,7 @@ public class GrimOwlConsoleGui
             Height = Dim.Percent(22)
         };
 
-        myInfoView = new CardCollectionView("My Info")
+        myGameInfoView = new GameInfoView("Game Info")
         {
             X = Pos.Right(myGraveyardView),
             Y = Pos.Bottom(gridView),
@@ -194,14 +198,14 @@ public class GrimOwlConsoleGui
         commandLineView = new CommandLineView()
         {
             X = 0,
-            Y = Pos.Bottom(myInfoView),
+            Y = Pos.Bottom(myGameInfoView),
             Width = Dim.Fill(),
             Height = 3
         };
 
 
 
-        gameFrame.Add(enemyHandView, enemyRitualsView, enemyEnchantmentsView, enemyGraveyardView, enemyInfoView , gridView, myHandView, myRitualsView, myEnchantmentsView, myGraveyardView, myInfoView, commandLineView);
+        gameFrame.Add(enemyHandView, enemyRitualsView, enemyEnchantmentsView, enemyGraveyardView, enemyGameInfoView , gridView, myHandView, myRitualsView, myEnchantmentsView, myGraveyardView, myGameInfoView, commandLineView);
 
         this.mainWindow.Add(gameFrame);
     }
@@ -239,13 +243,13 @@ public class GrimOwlConsoleGui
                 myRitualsView.SetNeedsDisplay();
                 myEnchantmentsView.SetNeedsDisplay();
                 myGraveyardView.SetNeedsDisplay();
-                myInfoView.SetNeedsDisplay();
+                myGameInfoView.SetNeedsDisplay();
                 commandLineView.SetNeedsDisplay();
                 enemyHandView.SetNeedsDisplay();
                 enemyRitualsView.SetNeedsDisplay();
                 enemyEnchantmentsView.SetNeedsDisplay();
                 enemyGraveyardView.SetNeedsDisplay();
-                enemyInfoView.SetNeedsDisplay();
+                enemyGameInfoView.SetNeedsDisplay();
             });
             Thread.Sleep(1000); // Aggiorna ogni 0.5 secondo
         }
@@ -254,6 +258,11 @@ public class GrimOwlConsoleGui
     public void OnNewGameState(GrimOwlGameUpdatePlayerContext game)
     {
         Console.WriteLine("New game state received");
+
+        currentGameState = null!;
+        currentGameState = game;
+
+        myGameInfoView.Update();
     }
 
 }

@@ -33,7 +33,6 @@ public class GameService
 
     private void OnMessageReceived(object? sender, MessageEventArgs e)
     {
-        Console.WriteLine($"Received message {e.Data}");
         HandleMessage(e.Data);
     }
 
@@ -74,11 +73,14 @@ public class GameService
 
     public void DeserializeGameState(string serializedGame)
     {
+        Console.WriteLine(serializedGame);
+
         GrimOwlGameUpdatePlayerContext? game = JsonSerializer.FromJson<GrimOwlGameUpdatePlayerContext>(serializedGame);
 
         if (game == null)
         {
             Console.WriteLine($"Client sent invalid command");
+            return;
         }
 
         OnGrimOwlGameStateUpdate.Invoke(game!);
@@ -105,5 +107,18 @@ public class GameService
                 break;
         }
 
+    }
+
+    public void SendCommand(string command)
+    {
+        NetworkMessage message = new NetworkMessage
+        {
+            Id = (int)MClient.PlayerCommand,
+            Payload = command
+        };
+
+        string serialized = JsonSerializer.ToJson(message);
+
+        ws.Send(serialized);
     }
 }

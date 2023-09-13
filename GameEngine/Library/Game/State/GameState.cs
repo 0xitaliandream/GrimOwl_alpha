@@ -9,7 +9,7 @@ public class GameState : IGameState
     [JsonIgnore]
     protected List<IReaction> reactions = null!;
 
-    [JsonIgnore]
+    [JsonProperty]
     protected List<IPlayer> players = null!;
 
     protected GameState()

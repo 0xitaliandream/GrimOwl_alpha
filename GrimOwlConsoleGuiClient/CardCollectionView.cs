@@ -1,4 +1,5 @@
-﻿using Terminal.Gui;
+﻿using GrimOwlGameEngine;
+using Terminal.Gui;
 
 namespace GrimOwlConsoleGuiClient;
 
@@ -8,10 +9,6 @@ public class CardCollectionView : FrameView
     ListView listView = null!;
 
     public CardCollectionView(string v) : base(v)
-    {
-    }
-
-    public void Initialize()
     {
         this.listView = new ListView()
         {
@@ -26,9 +23,10 @@ public class CardCollectionView : FrameView
         this.Add(this.listView);
     }
 
-    public void Update()
+    public void Update(GrimOwlGameUpdatePlayerContext game)
     {
-        
+
+
     }
 
 }

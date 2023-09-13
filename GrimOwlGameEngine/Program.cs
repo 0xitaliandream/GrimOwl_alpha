@@ -12,6 +12,10 @@ class MainClass
 
 
         string serializedGame = JsonSerializer.ToJson(grimOwlGameUpdatePlayerContext);
-        Console.WriteLine(serializedGame);
+
+        GrimOwlGameUpdatePlayerContext? game2 = JsonSerializer.FromJson<GrimOwlGameUpdatePlayerContext>(serializedGame);
+
+
+        Console.WriteLine(game2.GameInfo.State.ActivePlayer);
     }
 }

@@ -13,6 +13,7 @@ public class Server
 {
     private readonly WebSocketServer webSocketServer = null!;
 
+
     public Server()
     {
         webSocketServer = new WebSocketServer(8080);
@@ -23,6 +24,7 @@ public class Server
     public void Start()
     {
         webSocketServer.Start();
+        Console.WriteLine("GrimOwl Server started");
     }
 
     public void Stop()
@@ -34,28 +36,7 @@ public class Server
 
 public class AuthenticatedWebSocketBehavior : WebSocketBehavior
 {
-    public static Dictionary<string, int> sessionToToken = new Dictionary<string, int>();
-
-    public bool ContextIsAuthenticated
-    {
-        get
-        {
-            return sessionToToken.ContainsKey(this.ID);
-        }
-    }
-
-    public int ContextToken
-    {
-        get
-        {
-            return sessionToToken[this.ID];
-        }
-    }
-
-    public string GetTokenSession(int token)
-    {
-        return sessionToToken.FirstOrDefault(x => x.Value == token).Key;
-    }
+    public int ContextToken { get; set; }
 
     protected override void OnOpen()
     {
@@ -70,30 +51,24 @@ public class AuthenticatedWebSocketBehavior : WebSocketBehavior
             return;
         }
 
-        int token = int.Parse(authCookie.Substring("Bearer ".Length).Trim() ?? "0");
+        int token = int.Parse(authCookie.Substring("Bearer ".Length).Trim() ?? "-1");
 
         Console.WriteLine($"Token: {token}");
 
-        if (token == 0)
+        //CHECK TOKEN IS VALID AND NOT EXPIRED
+
+        if (token == -1)
         {
             this.Context.WebSocket.Close();
             return;
         }
 
-        // Salva la sessione del giocatore
-        string sessionId = this.ID;
-        sessionToToken[sessionId] = token;
+        ContextToken = token;
     }
 
     protected override void OnClose(CloseEventArgs e)
     {
-        // Gestisci la chiusura della connessione, ad esempio rimuovendo il giocatore dai dizionari
-
         Console.WriteLine("WebSocketClient connection closed");
-
-        if (sessionToToken.ContainsKey(this.ID))
-        {
-            sessionToToken.Remove(this.ID);
-        }
+        ContextToken = -1;
     }
 }

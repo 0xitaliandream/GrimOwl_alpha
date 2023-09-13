@@ -25,7 +25,7 @@ public static class JsonSerializer
         }
         catch (JsonException)
         {
-            // Log dell'errore, se necessario
+            Console.WriteLine("JsonException");
             return null;
         }
     }

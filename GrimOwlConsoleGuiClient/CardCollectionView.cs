@@ -6,27 +6,21 @@ using Terminal.Gui;
 
 namespace GrimOwlConsoleGuiClient;
 
-public class CardCollectionView : FrameView
+public class CardCollectionView : ListView
 {
 
     private ICardCollection CardCollection = null!;
-    ListView listView = null!;
 
-    public CardCollectionView(string v) : base(v)
+    public CardCollectionView() : base()
     {
-        this.listView = new ListView()
-        {
-            X = 0,
-            Y = 0,
-            Width = Dim.Fill(),
-            Height = Dim.Fill(),
-            AllowsMarking = false,
-            CanFocus = true,
-        };
+        X = 0;
+        Y = 0;
+        Width = Dim.Fill();
+        Height = Dim.Fill();
+        AllowsMarking = false;
+        CanFocus = true;
 
-        listView.OpenSelectedItem += OnSelectedChanged;
-
-        this.Add(this.listView);
+        OpenSelectedItem += OnSelectedChanged;
     }
 
     private void OnSelectedChanged(ListViewItemEventArgs args)
@@ -48,22 +42,13 @@ public class CardCollectionView : FrameView
         {
             ICard card = cardCollection[i];
 
-            StringBuilder sb = new StringBuilder();
+            string shortView = CardModalView.BuildCardShortView(card);
 
-            sb.Append($"{i:D2} {card.GetType().Name}");
-            sb.Append(" ");
-            sb.Append($"M: {card.GetValue(StatKeys.Mana):D2}");
-            sb.Append(" ");
-            sb.Append($"MS: {card.GetValue(StatKeys.ManaSpecial):D2}");
-            sb.Append(" ");
-            sb.Append($"A: {card.GetValue(StatKeys.Attack):D2}");
-            sb.Append(" ");
-            sb.Append($"L: {card.GetValue(StatKeys.Life):D2}");
-            list.Add(sb.ToString());
+            list.Add($"{i:D2} " + shortView);
         }
 
 
-        this.listView.SetSource(list);
+        SetSource(list);
 
     }
 

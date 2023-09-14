@@ -1,5 +1,6 @@
 ﻿using GameEngine;
 using GrimOwlGameEngine;
+using System.Collections.Generic;
 using System.Numerics;
 using System.Text;
 using Terminal.Gui;
@@ -43,11 +44,14 @@ public class CardModalView : Dialog
 
         this.Add(this.listView);
 
-        BuildCardListView(Card,listView);
+        List<string> cardInfos = BuildCardListView(Card);
+        listView.SetSource(cardInfos);
     }
 
-    public static void BuildCardListView(ICard card, ListView listView)
+    public static List<string> BuildCardListView(ICard card)
     {
+        Clipboard.Contents = card.UniqueId.ToString();
+
         List<string> list = new List<string>()
         {
             $"Name: {card.GetType().Name}",
@@ -57,10 +61,28 @@ public class CardModalView : Dialog
             $"Life: {card.GetValue(StatKeys.Life):D2}",
             $"Energy: {card.GetValue(StatKeys.Energy):D2}",
             $"Range: {card.GetValue(StatKeys.Range):D2}",
+            $"Id: {card.UniqueId}",
         };
 
 
-        listView.SetSource(list);
+        return list;
+    }
+
+    public static string BuildCardShortView(ICard card)
+    {
+        StringBuilder sb = new StringBuilder();
+
+        sb.Append($"{card.GetType().Name}");
+        sb.Append(" ");
+        sb.Append($"M: {card.GetValue(StatKeys.Mana):D2}");
+        sb.Append(" ");
+        sb.Append($"MS: {card.GetValue(StatKeys.ManaSpecial):D2}");
+        sb.Append(" ");
+        sb.Append($"A: {card.GetValue(StatKeys.Attack):D2}");
+        sb.Append(" ");
+        sb.Append($"L: {card.GetValue(StatKeys.Life):D2}");
+
+        return sb.ToString();
     }
 
 }

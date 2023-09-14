@@ -70,6 +70,8 @@ public static class TestScenarios
 
         GrimOwlGame game = new GrimOwlGame(gameState);
 
+        
+
         for (int i = 0; i < 2; ++i)
         {
             GrimOwlPlayer player = (GrimOwlPlayer)gameState.Players.ElementAt(i);
@@ -82,6 +84,8 @@ public static class TestScenarios
                 player.SpawnCreature(game, player.King, 4, 0);
             }
         }
+
+        game.StartGame();
 
 
         foreach (GrimOwlPlayer player in gameState.Players)

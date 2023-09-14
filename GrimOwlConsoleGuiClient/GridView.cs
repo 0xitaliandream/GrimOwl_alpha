@@ -1,4 +1,5 @@
-﻿using Terminal.Gui;
+﻿using GrimOwlGameEngine;
+using Terminal.Gui;
 
 namespace GrimOwlConsoleGuiClient;
 
@@ -11,18 +12,16 @@ public class GridView : FrameView
 
     public GridView(string v) : base(v)
     {
-        Initialize();
+        CanFocus = false;
     }
 
-    public void Initialize()
+    public void Update(GrimOwlGrid grid)
     {
-        Console.WriteLine("Initializing GridView");
 
-        this.cols = 5;
-        this.rows = 5;
+        this.cols = grid.Columns;
+        this.rows = grid.Rows;
 
-        Console.WriteLine($"cols: {this.cols}, rows: {this.rows}");
-
+        this.terrains = null!;
         this.terrains = new TerrainView[this.cols, this.rows];
 
         Dim col = Dim.Percent(100 / this.cols);
@@ -33,26 +32,20 @@ public class GridView : FrameView
             for (int y = 0; y < this.rows; y++)
             {
 
-                if (this.terrains[x, y] == null)
+                this.terrains[x, y] = new TerrainView(x, y)
                 {
-                    this.terrains[x, y] = new TerrainView(x, y)
-                    {
-                        X = Pos.Percent(x * 100 / this.cols),
-                        Y = Pos.Percent(y * 100 / this.rows),
-                        Width = col,
-                        Height = row,
-                        CanFocus = true,
-                    };
+                    X = Pos.Percent(x * 100 / this.cols),
+                    Y = Pos.Percent(y * 100 / this.rows),
+                    Width = col,
+                    Height = row,
+                    CanFocus = true,
+                };
 
-                    this.Add(this.terrains[x, y]);
-                }
+                this.terrains[x, y]!.Update(grid.Terrains[x,y]);
+
+                this.Add(this.terrains[x, y]);
             }
         }
-    }
-
-
-    public void UpdateGridView()
-    {
     }
 
 

@@ -10,7 +10,7 @@ public class GrimOwlGameState : GameState
     [JsonProperty]
     protected int activePlayerIndex;
 
-    [JsonIgnore]
+    [JsonProperty]
     protected GrimOwlGrid grid = null!;
     
     protected GrimOwlGameState()

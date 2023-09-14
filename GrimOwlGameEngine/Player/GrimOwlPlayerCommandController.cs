@@ -1,4 +1,6 @@
-﻿namespace GrimOwlGameEngine;
+﻿using GameEngine;
+
+namespace GrimOwlGameEngine;
 
 public class GrimOwlPlayerCommandController
 {
@@ -41,18 +43,18 @@ public class GrimOwlPlayerCommandController
             switch (inputParams[0].ToUpper())
             {
                 case CommandSummon:
-                    GrimOwlCreatureCard creatureCard = (GrimOwlCreatureCard)GetObjectById(game, inputParams[1]);
+                    GrimOwlCreatureCard creatureCard = (GrimOwlCreatureCard)GetCardById(game, inputParams[1]);
                     activePlayer.SummonCreature(game, creatureCard, int.Parse(inputParams[2]), int.Parse(inputParams[3]));
                     status = true;
                     break;
                 case CommandAttack:
-                    GrimOwlCreatureCard attacker = (GrimOwlCreatureCard)GetObjectById(game, inputParams[1]);
-                    GrimOwlCreatureCard defender = (GrimOwlCreatureCard)GetObjectById(game, inputParams[2]);
+                    GrimOwlCreatureCard attacker = (GrimOwlCreatureCard)GetCardById(game, inputParams[1]);
+                    GrimOwlCreatureCard defender = (GrimOwlCreatureCard)GetCardById(game, inputParams[2]);
                     activePlayer.AttackCreature(game, attacker, defender);
                     status = true;
                     break;
                 case CommandMove:
-                    GrimOwlCreatureCard creatureCard2 = (GrimOwlCreatureCard)GetObjectById(game, inputParams[1]);
+                    GrimOwlCreatureCard creatureCard2 = (GrimOwlCreatureCard)GetCardById(game, inputParams[1]);
                     activePlayer.MoveCreature(game, creatureCard2, int.Parse(inputParams[2]), int.Parse(inputParams[3]));
                     status = true;
                     break;
@@ -75,23 +77,21 @@ public class GrimOwlPlayerCommandController
         return status;
     }
 
-    private static object GetObjectById(GrimOwlGame game, string id)
+    private static ICard GetCardById(GrimOwlGame game, string id)
     {
         GrimOwlGameState state = game.State;
-        switch (int.Parse(id.Substring(0, 1)))
+        
+        int idInt = int.Parse(id);
+
+
+        ICard? card = game.State.Cards.FirstOrDefault(x => x.UniqueId == idInt);
+
+        if (card == null)
         {
-            case 0:
-                return state.NonActivePlayers.First();
-            case 1:
-                return state.NonActivePlayers.First().GetCardCollection(CardCollectionKeys.Hand).GetByUniqueId(int.Parse(id.Substring(1)));
-            case 2:
-                return state.Grid.GetCardByUniqueId(int.Parse(id.Substring(1)))!;
-            case 3:
-                return state.ActivePlayer.GetCardCollection(CardCollectionKeys.Hand).GetByUniqueId(int.Parse(id.Substring(1)));
-            case 4:
-                return state.ActivePlayer;
-            default:
-                throw new Exception("Unparsable id: " + id);
+            throw new GameException("Card with id " + id + " not found!");
         }
+        
+
+        return card;
     }
 }

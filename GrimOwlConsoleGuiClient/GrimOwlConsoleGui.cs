@@ -10,6 +10,20 @@ public class GrimOwlConsoleGui
 
     public Window mainWindow = null!;
     public MenuBar menu = null!;
+
+    public FrameView gameFrame = null!;
+
+    public FrameView myHandFrame = null!;
+    public FrameView myRitualsFrame = null!;
+    public FrameView myEnchantmentsFrame = null!;
+    public FrameView myGraveyardFrame = null!;
+
+    public FrameView enemyHandFrame = null!;
+    public FrameView enemyRitualsFrame = null!;
+    public FrameView enemyEnchantmentsFrame = null!;
+    public FrameView enemyGraveyardFrame = null!;
+
+
     public CardCollectionView myHandView = null!;
     public CardCollectionView myRitualsView = null!;
     public CardCollectionView myEnchantmentsView = null!;
@@ -53,11 +67,6 @@ public class GrimOwlConsoleGui
         client.ConnectAll();
     }
 
-    private void GameService_OnGrimOwlGameStateUpdate(GrimOwlGame obj)
-    {
-        throw new NotImplementedException();
-    }
-
     public void MainLoop()
     {
         Application.Init();
@@ -93,7 +102,7 @@ public class GrimOwlConsoleGui
             }),
         });
 
-        var gameFrame = new FrameView()
+        this.gameFrame = new FrameView()
         {
             X = 0,
             Y = 0,
@@ -102,11 +111,9 @@ public class GrimOwlConsoleGui
 
         };
 
-
         
 
-
-        enemyHandView = new CardCollectionView("Enemy Hand")
+        enemyHandFrame = new FrameView("Enemy Hand")
         {
             X = 0,
             Y = 0,
@@ -114,37 +121,63 @@ public class GrimOwlConsoleGui
             Height = Dim.Percent(15)
         };
 
-        enemyRitualsView = new CardCollectionView("Enemy Rituals")
+        enemyHandView = new CardCollectionView();
+
+        enemyHandFrame.Add(enemyHandView);
+
+        
+
+        enemyRitualsFrame = new FrameView("Enemy Rituals")
         {
-            X = Pos.Right(enemyHandView),
+            X = Pos.Right(enemyHandFrame),
             Y = 0,
             Width = Dim.Percent(15),
             Height = Dim.Percent(15)
         };
 
-        enemyEnchantmentsView = new CardCollectionView("Enemy Enchantments")
+        enemyRitualsView = new CardCollectionView();
+
+        enemyRitualsFrame.Add(enemyRitualsView);
+
+        
+
+        enemyEnchantmentsFrame = new FrameView("Enemy Enchantments")
         {
-            X = Pos.Right(enemyRitualsView),
+            X = Pos.Right(enemyRitualsFrame),
             Y = 0,
             Width = Dim.Percent(15),
             Height = Dim.Percent(15)
         };
 
-        enemyGraveyardView = new CardCollectionView("Enemy Graveyard")
+        enemyEnchantmentsView = new CardCollectionView();
+
+        enemyEnchantmentsFrame.Add(enemyEnchantmentsView);
+
+        
+
+        enemyGraveyardFrame = new FrameView("Enemy Graveyard")
         {
-            X = Pos.Right(enemyEnchantmentsView),
+            X = Pos.Right(enemyEnchantmentsFrame),
             Y = 0,
             Width = Dim.Percent(25),
             Height = Dim.Percent(15)
         };
 
+        enemyGraveyardView = new CardCollectionView();
+
+        enemyGraveyardFrame.Add(enemyGraveyardView);
+
+        
+
         enemyGameInfoView = new GameInfoView("Enemy Info")
         {
-            X = Pos.Right(enemyGraveyardView),
+            X = Pos.Right(enemyGraveyardFrame),
             Y = 0,
             Width = Dim.Percent(15),
             Height = Dim.Percent(15)
         };
+
+        
 
         gridView = new GridView("Grid")
         {
@@ -154,7 +187,8 @@ public class GrimOwlConsoleGui
             Height = Dim.Percent(58)
         };
 
-        myHandView = new CardCollectionView("My Hand")
+
+        myHandFrame = new FrameView("My Hand")
         {
             X = 0,
             Y = Pos.Bottom(gridView),
@@ -162,38 +196,53 @@ public class GrimOwlConsoleGui
             Height = Dim.Percent(22)
         };
 
-        myRitualsView = new CardCollectionView("My Rituals")
+        myHandView = new CardCollectionView();
+
+        myHandFrame.Add(myHandView);
+
+        myRitualsFrame = new FrameView("My Rituals")
         {
-            X = Pos.Right(myHandView),
+            X = Pos.Right(myHandFrame),
             Y = Pos.Bottom(gridView),
             Width = Dim.Percent(15),
             Height = Dim.Percent(22)
         };
 
-        myEnchantmentsView = new CardCollectionView("My Enchantments")
+        myRitualsView = new CardCollectionView();
+
+        myRitualsFrame.Add(myRitualsView);
+
+        myEnchantmentsFrame = new FrameView("My Enchantments")
         {
-            X = Pos.Right(myRitualsView),
+            X = Pos.Right(myRitualsFrame),
             Y = Pos.Bottom(gridView),
             Width = Dim.Percent(15),
             Height = Dim.Percent(22)
         };
 
-        myGraveyardView = new CardCollectionView("My Graveyard")
+        myEnchantmentsView = new CardCollectionView();
+
+        myEnchantmentsFrame.Add(myEnchantmentsView);
+
+        myGraveyardFrame = new FrameView("My Graveyard")
         {
-            X = Pos.Right(myEnchantmentsView),
+            X = Pos.Right(myEnchantmentsFrame),
             Y = Pos.Bottom(gridView),
             Width = Dim.Percent(25),
             Height = Dim.Percent(22)
         };
 
+        myGraveyardView = new CardCollectionView();
+
+        myGraveyardFrame.Add(myGraveyardView);
+
         myGameInfoView = new GameInfoView("Game Info")
         {
-            X = Pos.Right(myGraveyardView),
+            X = Pos.Right(myGraveyardFrame),
             Y = Pos.Bottom(gridView),
             Width = Dim.Percent(15),
             Height = Dim.Percent(22)
         };
-
 
         commandLineView = new CommandLineView()
         {
@@ -204,9 +253,7 @@ public class GrimOwlConsoleGui
         };
 
 
-
-        gameFrame.Add(enemyHandView, enemyRitualsView, enemyEnchantmentsView, enemyGraveyardView, enemyGameInfoView , gridView, myHandView, myRitualsView, myEnchantmentsView, myGraveyardView, myGameInfoView, commandLineView);
-
+        gameFrame.Add(enemyHandFrame, enemyHandFrame, enemyRitualsFrame, enemyEnchantmentsFrame, enemyGraveyardFrame, enemyGameInfoView, gridView, myHandFrame, myRitualsFrame, myEnchantmentsFrame, myGraveyardFrame, myGameInfoView, commandLineView);
         this.mainWindow.Add(gameFrame);
     }
 
@@ -238,18 +285,28 @@ public class GrimOwlConsoleGui
 
             Application.MainLoop.Invoke(() =>
             {
+
+                gameFrame.SetChildNeedsDisplay();
+                enemyHandFrame.SetChildNeedsDisplay();
+                enemyRitualsFrame.SetChildNeedsDisplay();
+                enemyEnchantmentsFrame.SetChildNeedsDisplay();
+                enemyGraveyardFrame.SetChildNeedsDisplay();
+                enemyGameInfoView.SetNeedsDisplay();
                 gridView.SetNeedsDisplay();
-                myHandView.SetNeedsDisplay();
-                myRitualsView.SetNeedsDisplay();
-                myEnchantmentsView.SetNeedsDisplay();
-                myGraveyardView.SetNeedsDisplay();
+                myHandFrame.SetChildNeedsDisplay();
+                myRitualsFrame.SetChildNeedsDisplay();
+                myEnchantmentsFrame.SetChildNeedsDisplay();
+                myGraveyardFrame.SetChildNeedsDisplay();
                 myGameInfoView.SetNeedsDisplay();
                 commandLineView.SetNeedsDisplay();
-                enemyHandView.SetNeedsDisplay();
-                enemyRitualsView.SetNeedsDisplay();
-                enemyEnchantmentsView.SetNeedsDisplay();
-                enemyGraveyardView.SetNeedsDisplay();
-                enemyGameInfoView.SetNeedsDisplay();
+
+
+                
+                
+                
+
+
+
             });
             Thread.Sleep(1000); // Aggiorna ogni 0.5 secondo
         }
@@ -263,11 +320,18 @@ public class GrimOwlConsoleGui
         currentGameState = null!;
         currentGameState = game;
 
+        gridView.Update(game.GameInfo.State.Grid);
+        
         myGameInfoView.Update(game.Player);
         enemyGameInfoView.Update(game.EnemyPlayer);
 
         myHandView.Update(game.Player.GetCardCollection(CardCollectionKeys.Hand));
         enemyHandView.Update(game.EnemyPlayer.GetCardCollection(CardCollectionKeys.Hand));
+
+        myGraveyardView.Update(game.Player.GetCardCollection(CardCollectionKeys.Graveyard));
+        enemyGraveyardView.Update(game.EnemyPlayer.GetCardCollection(CardCollectionKeys.Graveyard));
+
+
     }
 
 }
